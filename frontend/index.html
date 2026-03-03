@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restoran Kita - Cita Rasa Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">Restoran<span>Kita</span></a>
+            <ul class="nav-links">
+                <li><a href="#home">Beranda</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#" id="nav-maps">Lokasi & Review</a></li>
+                <li><a href="admin/login.html" class="btn-login"
+                        style="margin-left:20px; font-size: 0.9em; padding: 6px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2);">Admin
+                        Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="home" class="hero">
+        <div class="hero-content">
+            <h1>Cita Rasa Premium<br><span class="highlight">Dalam Setiap Gigitan</span></h1>
+            <p>Jelajahi menu eksklusif kami dan temukan pengalaman makan malam terbaik di kota.</p>
+            <a href="#menu" class="btn-primary">Lihat Menu</a>
+        </div>
+    </header>
+
+    <!-- Menu Section -->
+    <section id="menu" class="menu-section">
+        <div class="section-title">
+            <h2>Eksplorasi Menu</h2>
+            <p>Pilihan hidangan terbaik dari koki kami</p>
+        </div>
+
+        <!-- Categories Filter -->
+        <div class="category-filter" id="category-filter">
+            <button class="filter-btn active" data-id="">Semua</button>
+            <!-- Categories rendered dynamically -->
+        </div>
+
+        <!-- Loader -->
+        <div id="loader" class="loader-container">
+            <div class="spinner"></div>
+            <p>Memuat menu...</p>
+        </div>
+
+        <!-- Menu Grid -->
+        <div class="menu-grid" id="menu-grid">
+            <!-- Menu items rendered dynamically -->
+        </div>
+    </section>
+
+    <!-- Modals -->
+    <!-- Menu Detail Modal -->
+    <div id="menu-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-menu-modal">&times;</span>
+            <div class="menu-detail-layout">
+                <div class="menu-detail-img">
+                    <img id="modal-img" src="" alt="Menu Image">
+                </div>
+                <div class="menu-detail-info">
+                    <h3 id="modal-title">Menu Title</h3>
+                    <p id="modal-category" class="category-badge">Category</p>
+                    <h4 id="modal-price" class="price">Rp 0</h4>
+                    <p id="modal-desc" class="desc">Deskripsi menu</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Review/Maps Modal -->
+    <div id="maps-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-maps-modal">&times;</span>
+            <h2>Lokasi & Review Google Maps</h2>
+            <div class="maps-info">
+                <a id="gmaps-link" href="#" target="_blank" class="btn-secondary"><i
+                        class="fa-solid fa-map-location-dot"></i> Buka di Google Maps</a>
+            </div>
+
+            <div class="reviews-section">
+                <h3>Apa Kata Konsumen</h3>
+                <div class="rating-overall">
+                    <span id="overall-rating-number" class="big-rating">0</span>
+                    <i class="fa-solid fa-star" style="color: #ffc107;"></i>
+                </div>
+                <div id="reviews-list" class="reviews-list">
+                    <!-- Reviews rendered dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Floating Button -->
+    <div id="cart-floating-btn" class="cart-floating-btn">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span id="cart-badge" class="cart-badge">0</span>
+    </div>
+
+    <!-- Cart Sidebar/Modal -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-content side-modal">
+            <span class="close-btn" id="close-cart-modal">&times;</span>
+            <h2>Keranjang Belanja</h2>
+            <div id="cart-items" class="cart-items">
+                <!-- Cart items rendered here -->
+            </div>
+            <div class="cart-summary">
+                <div class="cart-total">Total: <span id="cart-total-price">Rp 0</span></div>
+                <button id="btn-checkout" class="btn-primary" style="width:100%; margin-top:15px;" disabled>Lanjut
+                    Pembayaran</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkout-modal" class="modal">
+        <div class="modal-content" style="max-width: 400px;">
+            <span class="close-btn" id="close-checkout-modal">&times;</span>
+            <h2>Pembayaran</h2>
+            <div class="checkout-summary">
+                <p>Total Tagihan: <strong id="checkout-total"
+                        style="font-size: 1.2rem; display: block; margin: 10px 0;">Rp 0</strong></p>
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label style="display:block; margin-bottom:5px;">Uang Terbayar (Rp)</label>
+                    <input type="number" id="checkout-paid" placeholder="Masukkan jumlah uang" required min="0"
+                        style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--glass-border); background:rgba(0,0,0,0.2); color:white;">
+                </div>
+                <div id="checkout-change-container"
+                    style="display:none; margin: 15px 0; padding: 15px; background: rgba(34,197,94,0.1); border-left: 4px solid #22c55e; border-radius: 4px;">
+                    <p>Kembalian: <strong id="checkout-change" style="color: #22c55e; font-size: 1.2rem;">Rp 0</strong>
+                    </p>
+                </div>
+                <p id="checkout-error" style="color:red; margin-bottom:15px;"></p>
+                <button id="btn-process-payment" class="btn-primary" style="width:100%;">Proses Pembayaran</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2026 Restoran Kita. All Rights Reserved.</p>
+            <a href="#" id="exit-btn" class="exit-link">Keluar dari Sistem</a>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>

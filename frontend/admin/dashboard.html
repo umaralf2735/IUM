@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - Restoran Kita</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body class="dashboard-body">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>Admin<span>Panel</span></h2>
+        </div>
+        <ul class="sidebar-nav">
+            <li><a href="#" class="nav-item active" data-target="dashboard"><i class="fa-solid fa-house"></i>
+                    Dashboard</a></li>
+            <li><a href="#" class="nav-item" data-target="manage-menus"><i class="fa-solid fa-utensils"></i> Kelola
+                    Menu</a></li>
+            <li><a href="#" class="nav-item" data-target="manage-categories"><i class="fa-solid fa-tags"></i> Kelola
+                    Kategori</a></li>
+            <li><a href="#" class="nav-item" data-target="manage-images"><i class="fa-solid fa-image"></i> Kelola
+                    Gambar</a></li>
+            <li><a href="#" class="nav-item" data-target="manage-admins"><i class="fa-solid fa-users"></i> Kelola
+                    Admin</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <button id="logout-btn" class="btn-logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="top-header">
+            <h1>Selamat Datang, Admin</h1>
+        </header>
+
+        <div class="content-sections">
+            <!-- Dashboard Home -->
+            <section id="dashboard" class="admin-section active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Menu</h3>
+                        <p class="stat-number" id="stat-menus">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Kategori</h3>
+                        <p class="stat-number" id="stat-categories">0</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Manage Menus -->
+            <section id="manage-menus" class="admin-section">
+                <div class="section-header">
+                    <h2>Daftar Menu</h2>
+                    <button class="btn-primary" onclick="openMenuForm()"><i class="fa-solid fa-plus"></i> Tambah
+                        Menu</button>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nama</th>
+                                <th>Kategori</th>
+                                <th>Harga</th>
+                                <th>Stok</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbl-menus">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Manage Categories -->
+            <section id="manage-categories" class="admin-section">
+                <div class="section-header">
+                    <h2>Daftar Kategori</h2>
+                    <form id="add-category-form" class="inline-form">
+                        <input type="text" id="cat-name" placeholder="Nama kategori baru" required>
+                        <button type="submit" class="btn-primary">Tambah</button>
+                    </form>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nama Kategori</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbl-categories">
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Manage Images -->
+            <section id="manage-images" class="admin-section">
+                <div class="section-header">
+                    <h2>Galeri Gambar</h2>
+                    <form id="upload-image-form" class="inline-form">
+                        <input type="file" id="image-file" accept="image/*" required>
+                        <button type="submit" class="btn-primary">Upload</button>
+                    </form>
+                </div>
+                <div class="image-grid" id="admin-image-grid">
+                    <!-- Images listed here -->
+                </div>
+            </section>
+
+            <!-- Manage Admins -->
+            <section id="manage-admins" class="admin-section">
+                <div class="section-header">
+                    <h2>Tambah Akun Admin</h2>
+                </div>
+                <div class="form-card">
+                    <form id="add-admin-form">
+                        <div class="form-group">
+                            <label>Username Baru</label>
+                            <input type="text" id="new-admin-user" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="new-admin-pass" required>
+                        </div>
+                        <button type="submit" class="btn-primary">Simpan Akun Admin</button>
+                        <p id="admin-msg" style="margin-top: 10px;"></p>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Modal Form Menu -->
+    <div id="admin-menu-modal" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <span class="close-btn" onclick="closeMenuForm()">&times;</span>
+            <h2 id="menu-form-title" style="margin-bottom: 20px;">Tambah Menu</h2>
+            <form id="menu-form">
+                <input type="hidden" id="menu-id">
+                <div class="form-group">
+                    <label>Nama Menu</label>
+                    <input type="text" id="m-name" required>
+                </div>
+                <div class="form-group">
+                    <label>Harga (Rp)</label>
+                    <input type="number" id="m-price" required>
+                </div>
+                <div class="form-group">
+                    <label>Stok</label>
+                    <input type="number" id="m-stock" required min="0" value="0">
+                </div>
+                <div class="form-group">
+                    <label>Kategori</label>
+                    <select id="m-category" required></select>
+                </div>
+                <div class="form-group">
+                    <label>Pilih Gambar (Opsional)</label>
+                    <select id="m-image">
+                        <option value="">-- Tanpa Gambar --</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Google Maps URL (Opsional)</label>
+                    <input type="text" id="m-gmaps">
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%;">Simpan Menu</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>
