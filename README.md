@@ -15,7 +15,8 @@ Sebenarnya, Anda **TIDAK PERLU repot** menjalankan panjang-lebar script `.sql` u
 1. Buka aplikasi **Laragon** (atau XAMPP) lalu Start Server **MySQL**-nya.
 2. Buka HeidiSQL / phpMyAdmin.
 3. Buat database baru dengan nama pasti: `restoran_db`.
-4. Selesai!
+4. Eksport File database.sql di dalam database yang baru dibuat tadi
+5. Selesai!
 
 *Catatan Tambahan:* Apabila Anda mau memakai script manual, sudah disediakan file `database.sql` di root folder. Anda cukup Import file tersebut, ia akan otomatis membuat tabelnya.
 
