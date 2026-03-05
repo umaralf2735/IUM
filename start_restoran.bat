@@ -1,6 +1,6 @@
 @echo off
 echo ===================================================
-echo   Memulai Server Restoran Kita...
+echo   Memulai Server Warkop Ayah...
 echo ===================================================
 
 echo.

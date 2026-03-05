@@ -29,7 +29,7 @@ def get_maps():
     # Mock endpoint for general Maps URL
     return jsonify({
         "status": "success",
-        "maps_url": "https://maps.google.com/?q=Restoran+Kita",
+        "maps_url": "https://maps.google.com/?q=Warkop+Ayah",
         "description": "Lokasi Restoran"
     }), 200
 
