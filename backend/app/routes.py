@@ -40,9 +40,9 @@ def get_maps_reviews():
         "status": "success",
         "reviews": [
             {"user": "Budi", "rating": 5, "comment": "Makanannya sangat enak!"},
-            {"user": "Siti", "rating": 4, "comment": "Pelayanan ramah."}
+            {"user": "Siti", "rating": 5, "comment": "Pelayanan ramah."}
         ],
-        "overall_rating": 4.5
+        "overall_rating": 5
     }), 200
 
 # --- ADMIN AUTH ---
@@ -129,6 +129,15 @@ def allowed_file(filename):
 @api_bp.route('/admin/images', methods=['GET'])
 @jwt_required()
 def get_images():
+    images = Image.query.all()
+    return jsonify([{
+        "id": img.id, 
+        "filename": img.filename, 
+        "url": f"/static/uploads/{img.filename}"
+    } for img in images]), 200
+
+@api_bp.route('/images', methods=['GET'])
+def get_public_images():
     images = Image.query.all()
     return jsonify([{
         "id": img.id, 

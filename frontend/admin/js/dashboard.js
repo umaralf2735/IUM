@@ -211,7 +211,6 @@ async function editMenu(id) {
     document.getElementById('m-price').value = menu.price;
     document.getElementById('m-stock').value = menu.stock || 0;
     document.getElementById('m-category').value = menu.category_id;
-    document.getElementById('m-gmaps').value = menu.google_maps_url || '';
 
     // Attempt to set image if it exists in data
     // Requires modifying backend to return image_id or matching by URL
@@ -225,8 +224,7 @@ async function handleSaveMenu(e) {
         price: parseFloat(document.getElementById('m-price').value),
         stock: parseInt(document.getElementById('m-stock').value) || 0,
         category_id: parseInt(document.getElementById('m-category').value),
-        image_id: document.getElementById('m-image').value ? parseInt(document.getElementById('m-image').value) : null,
-        google_maps_url: document.getElementById('m-gmaps').value
+        image_id: document.getElementById('m-image').value ? parseInt(document.getElementById('m-image').value) : null
     };
 
     const method = id ? 'PUT' : 'POST';

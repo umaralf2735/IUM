@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS restoran_db;
-USE restoran_db;
+CREATE DATABASE IF NOT EXISTS `warkop.ayah`;
+USE `warkop.ayah`;
 
 -- SQL Berikut akan membuat struktur tabel untuk aplikasi Warkop Ayah --
 -- CATATAN: Langkah ini (opsional) karena Flask SQLAlchemy otomatis membuat tabel --

@@ -4,6 +4,8 @@ const API_URL = 'http://127.0.0.1:5000/api';
 const menuGrid = document.getElementById('menu-grid');
 const categoryFilter = document.getElementById('category-filter');
 const loader = document.getElementById('loader');
+const cartTotalEl = document.getElementById('cart-total');
+const btnCheckout = document.getElementById('btn-checkout');
 
 // Modal Elements
 const menuModal = document.getElementById('menu-modal');
@@ -13,32 +15,40 @@ const closeMapsModalBtn = document.getElementById('close-maps-modal');
 
 // Cart Elements
 const cartModal = document.getElementById('cart-modal');
-const checkoutModal = document.getElementById('checkout-modal');
 const cartFloatingBtn = document.getElementById('cart-floating-btn');
+const closeCartModal = document.getElementById('close-cart-modal'); // Assuming this is a new element to be added
+
+// Payment Modal Elements
+const checkoutModal = document.getElementById('checkout-modal');
+const closeCheckoutModal = document.getElementById('close-checkout-modal');
+const paymentTotalEl = document.getElementById('checkout-total');
+const inputUang = document.getElementById('uang-pembeli');
+const kembalianArea = document.getElementById('kembalian-area');
+const kembalianTxt = document.getElementById('uang-kembalian');
+const btnConfirmPay = document.getElementById('btn-confirm-pay');
 
 // Init variables
+let cart = [];
 let menus = [];
 let categories = [];
-let cart = [];
 
 // Init App
 document.addEventListener('DOMContentLoaded', () => {
-    fetchMenus();
+    fetchMenus('all');
     fetchCategories();
 
     // Event Listeners
-    document.getElementById('nav-maps').addEventListener('click', (e) => {
-        e.preventDefault();
-        openMapsModal();
-    });
+    if (document.getElementById('nav-maps')) document.getElementById('nav-maps').addEventListener('click', (e) => { e.preventDefault(); openMapsModal(); });
 
-    document.getElementById('exit-btn').addEventListener('click', (e) => {
-        e.preventDefault();
-        const confirmExit = confirm('Keluar dari sistem?');
-        if (confirmExit) {
-            document.body.innerHTML = '<div style="height:100vh;display:flex;align-items:center;justify-content:center;font-size:2rem;color:white;background:#0f172a;">Terima Kasih. Sistem Diakhiri.</div>';
-        }
-    });
+    if (document.getElementById('exit-btn')) {
+        document.getElementById('exit-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            const confirmExit = confirm('Keluar dari sistem?');
+            if (confirmExit) {
+                document.body.innerHTML = '<div style="height:100vh;display:flex;align-items:center;justify-content:center;font-size:2rem;color:white;background:#0f172a;">Terima Kasih. Sistem Diakhiri.</div>';
+            }
+        });
+    }
 
     // Close Modals Settings
     window.addEventListener('click', (e) => {
@@ -47,24 +57,61 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target === cartModal) cartModal.classList.remove('show');
         if (e.target === checkoutModal) checkoutModal.classList.remove('show');
     });
-    closeMenuModalBtn.addEventListener('click', closeMenuModal);
-    closeMapsModalBtn.addEventListener('click', closeMapsModal);
+    if (closeMapsModalBtn) closeMapsModalBtn.addEventListener('click', closeMapsModal);
+    if (closeMenuModalBtn) closeMenuModalBtn.addEventListener('click', closeMenuModal);
+
+    // Add event listeners for modal buttons here to prevent breakage
+    const leftArrow = document.querySelector('.left-arrow');
+    const rightArrow = document.querySelector('.right-arrow');
+
+    // Mouse Drag to Scroll
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    if (menuGrid) {
+        menuGrid.addEventListener('mousedown', (e) => {
+            isDown = true;
+            menuGrid.style.cursor = 'grabbing';
+            startX = e.pageX - menuGrid.offsetLeft;
+            scrollLeft = menuGrid.scrollLeft;
+        });
+        menuGrid.addEventListener('mouseleave', () => {
+            isDown = false;
+            menuGrid.style.cursor = 'default';
+        });
+        menuGrid.addEventListener('mouseup', () => {
+            isDown = false;
+            menuGrid.style.cursor = 'default';
+        });
+        menuGrid.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - menuGrid.offsetLeft;
+            const walk = (x - startX) * 2; // scroll-fast
+            menuGrid.scrollLeft = scrollLeft - walk;
+        });
+    }
 
     // Cart Events
-    cartFloatingBtn.addEventListener('click', () => {
-        updateCartUI();
-        cartModal.classList.add('show');
-    });
-    document.getElementById('close-cart-modal').addEventListener('click', () => cartModal.classList.remove('show'));
-    document.getElementById('close-checkout-modal').addEventListener('click', () => checkoutModal.classList.remove('show'));
+    if (cartFloatingBtn) {
+        cartFloatingBtn.addEventListener('click', () => {
+            updateCartUI();
+            cartModal.classList.add('show');
+        });
+    }
+    if (document.getElementById('close-cart-modal')) document.getElementById('close-cart-modal').addEventListener('click', () => cartModal.classList.remove('show'));
+    if (document.getElementById('close-checkout-modal')) document.getElementById('close-checkout-modal').addEventListener('click', () => checkoutModal.classList.remove('show'));
 
-    document.getElementById('btn-checkout').addEventListener('click', () => {
-        cartModal.classList.remove('show');
-        openCheckoutModal();
-    });
+    if (document.getElementById('btn-checkout')) {
+        document.getElementById('btn-checkout').addEventListener('click', () => {
+            cartModal.classList.remove('show');
+            openCheckoutModal();
+        });
+    }
 
-    document.getElementById('btn-process-payment').addEventListener('click', processCheckout);
-    document.getElementById('checkout-paid').addEventListener('input', calculateChange);
+    if (btnConfirmPay) btnConfirmPay.addEventListener('click', processCheckout);
+    if (inputUang) inputUang.addEventListener('input', calculateChange);
 });
 
 // Fetch Menus
@@ -72,8 +119,9 @@ async function fetchMenus(categoryId = '') {
     loader.style.display = 'block';
     menuGrid.innerHTML = '';
     try {
-        const url = categoryId ? `${API_URL}/menus?category_id=${categoryId}` : `${API_URL}/menus`;
+        const url = (categoryId && categoryId !== 'all') ? `${API_URL}/menus?category_id=${categoryId}` : `${API_URL}/menus`;
         const res = await fetch(url);
+        if (!res.ok) throw new Error("Gagal mengambil data produk");
         menus = await res.json();
         renderMenus(menus);
     } catch (error) {
@@ -84,44 +132,101 @@ async function fetchMenus(categoryId = '') {
     }
 }
 
-// Fetch Categories
-async function fetchCategories() {
-    try {
-        // Since we don't have public category endpoint, we extract from menus or mock it.
-        // Actually, let's just create a mock local category list if endpoint is protected.
-        // For public, we'll extract unique categories from the previously fetched menus.
-        setTimeout(() => {
-            const uniqueCategories = [...new Set(menus.map(m => m.category).filter(c => c))];
-            uniqueCategories.forEach(cat => {
-                const btn = document.createElement('button');
-                btn.className = 'filter-btn';
-                btn.textContent = cat;
-                // Finding first matching category id
-                const catId = menus.find(m => m.category === cat)?.category_id;
-                btn.dataset.id = catId;
-                btn.addEventListener('click', (e) => handleCategoryClick(e, catId));
-                categoryFilter.appendChild(btn);
-            });
+// Bind existing category filters defined in HTML
+function fetchCategories() {
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const catId = e.target.dataset.id;
+            handleCategoryClick(e, catId);
+        });
+    });
+}
 
-            // Add event to 'Semua' button
-            document.querySelector('.filter-btn[data-id=""]').addEventListener('click', (e) => handleCategoryClick(e, ''));
-        }, 500);
+function handleCategoryClick(e, categoryName) {
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+        btn.style.borderBottom = 'none';
+        btn.style.color = 'var(--text-muted)';
+    });
 
-    } catch (error) {
-        console.error('Error handling categories:', error);
+    e.target.classList.add('active');
+    e.target.style.borderBottom = '2px solid var(--text-white)';
+    e.target.style.color = 'var(--text-white)';
+
+    if (categoryName === 'all') {
+        renderMenus(menus);
+    } else {
+        const filtered = menus.filter(m => {
+            const mCat = String(m.category || '').toLowerCase();
+            const mName = String(m.name || '').toLowerCase();
+            const search = String(categoryName).toLowerCase();
+            return mCat.includes(search) || mName.includes(search);
+        });
+        renderMenus(filtered);
     }
 }
 
-function handleCategoryClick(e, categoryId) {
-    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-    e.target.classList.add('active');
-    fetchMenus(categoryId);
+// Review Submit Mock
+function submitReview() {
+    const name = document.getElementById('review-name').value;
+    const rating = document.getElementById('review-rating').value;
+    const text = document.getElementById('review-text').value;
+
+    if (!name || !text) {
+        alert("Nama dan Cerita harus diisi ya!");
+        return;
+    }
+
+    alert("Terima kasih! Review dan momen Anda telah berhasil dikirim.");
+
+    // Create new mock block
+    const list = document.getElementById('public-reviews-list');
+    const stars = Array(Number(rating)).fill('<i class="fa-solid fa-star"></i>').join('');
+
+    const div = document.createElement('div');
+    div.className = 'review-card';
+    div.style.cssText = 'background:#fff; padding:20px; border-radius:10px; box-shadow:0 4px 15px rgba(0,0,0,0.05); border-left: 4px solid var(--primary-col); animation: fadeIn 0.5s;';
+    div.innerHTML = `
+        <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+            <strong style="color:#333;">${name}</strong>
+            <span style="color:#f7b70b;">${stars}</span>
+        </div>
+        <p style="color:#666; font-style: italic; line-height: 1.6;">"${text}"</p>
+    `;
+    list.prepend(div);
+
+    document.getElementById('review-name').value = '';
+    document.getElementById('review-text').value = '';
+    document.getElementById('review-image').value = '';
 }
+
+// --- Scrolling Spy Logic ---
+function navScrollSpy() {
+    const sections = document.querySelectorAll('section, header');
+    const navLinks = document.querySelectorAll('.nav-links a.nav-btn');
+
+    let current = '';
+    sections.forEach(sec => {
+        const sectionTop = sec.offsetTop;
+        if (scrollY >= sectionTop - 150) {
+            current = sec.getAttribute('id');
+        }
+    });
+
+    navLinks.forEach(li => {
+        li.classList.remove('active');
+        if (current && li.getAttribute('href') == `#${current}`) {
+            li.classList.add('active');
+        }
+    });
+}
+window.addEventListener('scroll', navScrollSpy);
 
 // Render Menus
 function renderMenus(menuData) {
+    menuGrid.innerHTML = '';
     if (menuData.length === 0) {
-        menuGrid.innerHTML = '<p>Tidak ada menu yang tersedia saat ini.</p>';
+        menuGrid.innerHTML = '<p style="text-align:center; width: 100%;">Tidak ada menu yang tersedia saat ini.</p>';
         return;
     }
 
@@ -145,15 +250,16 @@ function renderMenus(menuData) {
 
         card.innerHTML = `
             ${imgHTML}
-            <div class="menu-info">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px;">
-                    <span class="menu-category" style="margin:0;">${menu.category || 'Umum'}</span>
+            <div class="menu-info" style="text-align: center;">
+                <div style="display:flex; justify-content:center; align-items:center; margin-bottom: 5px; gap: 10px;">
+                    <span class="menu-category" style="margin:0; display:inline-block; font-size: 0.75rem; color: var(--primary-col); font-weight:800;">${menu.category || 'UMUM'}</span>
                     ${stockBadge}
                 </div>
-                <h3>${menu.name}</h3>
-                <div class="menu-price">Rp ${menu.price.toLocaleString('id-ID')}</div>
-                <button class="${btnClass}" style="width:100%; margin-top:10px; padding: 8px; font-size:0.9rem; ${pointerEvents}" onclick="event.stopPropagation(); addToCart(${menu.id})">
-                    <i class="fa-solid fa-cart-plus"></i> Tambah Keranjang
+                <h3 style="color:var(--text-white); font-weight:800; font-size:1.1rem;">${menu.name}</h3>
+                <div class="menu-price" style="display:block; font-size:1rem; font-weight:700; color:var(--text-muted); margin-top:5px; text-decoration:line-through;">Rp ${(menu.price + 5000).toLocaleString('id-ID')}</div>
+                <div class="menu-price" style="display:block; font-size:1.4rem; font-weight:900; color:#c72121; margin-top:0;">Rp ${menu.price.toLocaleString('id-ID')}</div>
+                <button class="${btnClass}" style="width:80%; margin:15px auto 0 auto; padding: 10px; font-size:0.9rem; border-radius:30px; ${pointerEvents}; background:var(--primary-col); color:white; border:none; box-shadow: 0 4px 10px rgba(247,183,11,0.3); transition:0.3s" onclick="event.stopPropagation(); addToCart(${menu.id})">
+                    <i class="fa-solid fa-cart-shopping"></i> BELI SEKARANG
                 </button>
             </div>
         `;
@@ -193,34 +299,11 @@ function closeMenuModal() {
 
 async function openMapsModal() {
     try {
-        // Fetch mock map & reviews
+        // Fetch mock map
         const mapRes = await fetch(`${API_URL}/maps`);
         const mapData = await mapRes.json();
 
-        const reviewRes = await fetch(`${API_URL}/maps/reviews`);
-        const reviewData = await reviewRes.json();
-
         document.getElementById('gmaps-link').href = mapData.maps_url;
-        document.getElementById('overall-rating-number').textContent = reviewData.overall_rating;
-
-        const reviewListEl = document.getElementById('reviews-list');
-        reviewListEl.innerHTML = '';
-        reviewData.reviews.forEach(r => {
-            const starsHTML = Array(5).fill(0).map((_, i) =>
-                i < r.rating ? '<i class="fa-solid fa-star"></i>' : '<i class="fa-regular fa-star"></i>'
-            ).join('');
-
-            reviewListEl.innerHTML += `
-                <div class="review-card">
-                    <div class="review-header">
-                        <span class="reviewer-name">${r.user}</span>
-                        <div class="review-stars">${starsHTML}</div>
-                    </div>
-                    <p class="review-comment">"${r.comment}"</p>
-                </div>
-            `;
-        });
-
         mapsModal.classList.add('show');
     } catch (error) {
         console.error("Failed map", error);
@@ -316,24 +399,29 @@ function removeCartItem(index) {
 function openCheckoutModal() {
     const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     document.getElementById('checkout-total').textContent = `Rp ${totalPrice.toLocaleString('id-ID')}`;
-    document.getElementById('checkout-paid').value = '';
-    document.getElementById('checkout-change-container').style.display = 'none';
-    document.getElementById('checkout-error').textContent = '';
+    const inputUangEl = document.getElementById('uang-pembeli');
+    inputUangEl.value = '';
+
+    // Ensure the event listener is locally bound to trigger instantly when typing
+    inputUangEl.oninput = calculateChange;
+
+    document.getElementById('kembalian-area').style.display = 'none';
+    if (document.getElementById('checkout-error')) document.getElementById('checkout-error').textContent = '';
     checkoutModal.classList.add('show');
 }
 
 function calculateChange() {
     const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const paid = parseFloat(document.getElementById('checkout-paid').value) || 0;
+    const paid = parseFloat(document.getElementById('uang-pembeli').value) || 0;
 
     if (paid >= totalPrice) {
         const change = paid - totalPrice;
-        document.getElementById('checkout-change-container').style.display = 'block';
-        document.getElementById('checkout-change').textContent = `Rp ${change.toLocaleString('id-ID')}`;
-        document.getElementById('checkout-error').textContent = '';
+        document.getElementById('kembalian-area').style.display = 'block';
+        document.getElementById('uang-kembalian').textContent = `Rp ${change.toLocaleString('id-ID')}`;
+        if (document.getElementById('checkout-error')) document.getElementById('checkout-error').textContent = '';
     } else {
-        document.getElementById('checkout-change-container').style.display = 'none';
-        if (paid > 0) {
+        document.getElementById('kembalian-area').style.display = 'none';
+        if (paid > 0 && document.getElementById('checkout-error')) {
             document.getElementById('checkout-error').textContent = 'Uang tidak cukup.';
         }
     }
@@ -341,11 +429,12 @@ function calculateChange() {
 
 async function processCheckout() {
     const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const paid = parseFloat(document.getElementById('checkout-paid').value) || 0;
+    const paid = parseFloat(document.getElementById('uang-pembeli').value) || 0;
 
     if (cart.length === 0) return;
     if (paid < totalPrice) {
-        document.getElementById('checkout-error').textContent = 'Harap bayar sesuai tagihan.';
+        if (document.getElementById('checkout-error')) document.getElementById('checkout-error').textContent = 'Harap bayar sesuai tagihan.';
+        else alert('Uang pembayaran tidak cukup.');
         return;
     }
 
@@ -366,11 +455,13 @@ async function processCheckout() {
             updateCartUI();
             checkoutModal.classList.remove('show');
             // Refresh menu list
-            fetchMenus();
+            fetchMenus('all');
         } else {
-            document.getElementById('checkout-error').textContent = data.msg || 'Terjadi kesalahan pada pembayaran.';
+            if (document.getElementById('checkout-error')) document.getElementById('checkout-error').textContent = data.msg || 'Terjadi kesalahan pada pembayaran.';
+            else alert(data.msg || 'Terjadi kesalahan.');
         }
     } catch (err) {
-        document.getElementById('checkout-error').textContent = 'Koneksi error.';
+        if (document.getElementById('checkout-error')) document.getElementById('checkout-error').textContent = 'Koneksi error.';
+        else alert('Koneksi sistem terputus.');
     }
 }

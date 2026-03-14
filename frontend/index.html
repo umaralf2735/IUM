@@ -5,62 +5,106 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Warkop Ayah - Cita Rasa Premium</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- Fonts added from Figma -->
+    <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
     <!-- Navbar -->
-    <nav class="navbar">
+    <nav class="navbar new-nav">
         <div class="nav-container">
-            <a href="#" class="logo">Warkop<span>Ayah</span></a>
+            <a href="#" class="logo">
+                <span style="color:var(--primary-col);">WARKOP AYAH</span><br>
+                <span class="logo-sub">COFFEE & FOOD</span>
+            </a>
             <ul class="nav-links">
-                <li><a href="#home">Beranda</a></li>
-                <li><a href="#menu">Menu</a></li>
-                <li><a href="#" id="nav-maps">Lokasi & Review</a></li>
+                <li><a href="#home" class="nav-btn active">HOME</a></li>
+                <li><a href="#products" class="nav-btn">MENU</a></li>
+                <li><a href="#about" class="nav-btn">ABOUT US</a></li>
+                <li><a href="#moments" class="nav-btn">MOMENTS</a></li>
+                <li><a href="#" id="nav-maps" class="nav-btn">LOKASI KAMI</a></li>
                 <li><a href="admin/login.html" class="btn-login"
-                        style="margin-left:20px; font-size: 0.9em; padding: 6px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2);">Admin
+                        style="margin-left:20px; font-size: 0.8em; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--primary-col); color: var(--primary-col);">Admin
                         Login</a></li>
             </ul>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <header id="home" class="hero">
-        <div class="hero-content">
-            <h1>Cita Rasa Premium<br><span class="highlight">Dalam Setiap Gigitan</span></h1>
-            <p>Jelajahi menu eksklusif kami dan temukan pengalaman makan malam terbaik di kota.</p>
-            <a href="#menu" class="btn-primary">Lihat Menu</a>
-        </div>
-    </header>
+    <section id="home" class="hero new-hero">
+        <div class="hero-overlay"></div>
+    </section>
 
-    <!-- Menu Section -->
-    <section id="menu" class="menu-section">
-        <div class="section-title">
-            <h2>Eksplorasi Menu</h2>
-            <p>Pilihan hidangan terbaik dari koki kami</p>
-        </div>
-
-        <!-- Categories Filter -->
+    <!-- Filter -->
+    <section id="products" style="padding: 50px 20px 20px 20px; background:#fff;">
         <div class="category-filter" id="category-filter">
-            <button class="filter-btn active" data-id="">Semua</button>
-            <!-- Categories rendered dynamically -->
-        </div>
-
-        <!-- Loader -->
-        <div id="loader" class="loader-container">
-            <div class="spinner"></div>
-            <p>Memuat menu...</p>
-        </div>
-
-        <!-- Menu Grid -->
-        <div class="menu-grid" id="menu-grid">
-            <!-- Menu items rendered dynamically -->
+            <button class="filter-btn active" data-id="all"
+                style="border:none; border-bottom:2px solid var(--text-white); border-radius:0; color:var(--text-white); padding-bottom:5px;">Semua</button>
+            <button class="filter-btn" data-id="Makanan" style="border:none; color:var(--text-muted);">Makanan</button>
+            <button class="filter-btn" data-id="Minuman" style="border:none; color:var(--text-muted);">Minuman</button>
+            <button class="filter-btn" data-id="Snack" style="border:none; color:var(--text-muted);">Snack</button>
         </div>
     </section>
 
-    <!-- Modals -->
+    <!-- Menu Section (Product Carousel) -->
+    <section class="menu-section" style="padding-top:20px; padding-bottom:100px; background:#fff; position:relative;">
+
+        <!-- Loading -->
+        <div id="loader" class="loader-container">
+            <div class="spinner"></div>
+            <p>Memuat Etalase...</p>
+        </div>
+
+        <!-- Grid Products -->
+        <div class="menu-grid" id="menu-grid" style="max-width: 900px; margin: 0 auto;">
+            <!-- Generated Layout for Products from Python -->
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="about-container">
+            <div class="about-text">
+                <h2>CERITA KAMI</h2>
+                <p>Dimulai dari satu meja sederhana di teras rumah yang hangat, kami tumbuh menjadi ruang bagi semua
+                    kalangan untuk berbagi tawa dan melepas penat setelah seharian bekerja.</p>
+                <p>Di tahun 2020, kami berkomitmen untuk menghadirkan pengalaman "ngopi" yang berbeda. Melalui kampanye
+                    "Kopi Jujur, Harga Sedulur", Warkop Ayah membuktikan bahwa kedai sederhana pun mampu menyajikan
+                    minuman berkualitas dengan standar rasa yang terjaga.</p>
+                <p>Dedikasi kami dalam meracik setiap gelas dengan sepenuh hati telah membawa Warkop Ayah menjadi tempat
+                    favorit warga sekitar. Kami bangga dapat terus menyajikan kehangatan melalui pilihan minuman terbaik
+                    yang diracik khusus untuk menemani setiap cerita Anda.</p>
+            </div>
+            <div class="about-image">
+                <img src="images\v1_230.png" alt="Warkop Sketch">
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="moments" class="gallery-section">
+        <p class="section-subtitle">MOMENTS</p>
+        <h2>GALLERY</h2>
+        <div class="gallery-line"></div>
+        <div class="gallery-grid">
+            <img src="images/v1_156.png" alt="M">
+            <img src="images/v1_157.png" alt="M">
+            <img src="images/v1_158.png" alt="M">
+            <img src="images/v1_159.png" alt="M">
+            <img src="images/v1_162.png" alt="M">
+            <img src="images/v1_164.png" alt="M">
+            <img src="images/v1_167.png" alt="M">
+            <img src="images/v1_169.png" alt="M">
+            <img src="images/v1_172.png" alt="M">
+            <img src="images/v1_174.png" alt="M">
+            <img src="images/v1_177.png" alt="M">
+            <img src="images/v1_179.png" alt="M">
+        </div>
+    </section>
     <!-- Menu Detail Modal -->
     <div id="menu-modal" class="modal">
         <div class="modal-content">
@@ -81,23 +125,15 @@
 
     <!-- Review/Maps Modal -->
     <div id="maps-modal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content" style="max-width: 400px; text-align: center;">
             <span class="close-btn" id="close-maps-modal">&times;</span>
-            <h2>Lokasi & Review Google Maps</h2>
+            <h2 style="margin-bottom: 15px;">Lokasi Google Maps</h2>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">Kunjungi Warkop kami secara langsung melalui
+                tautan di bawah ini.</p>
             <div class="maps-info">
-                <a id="gmaps-link" href="#" target="_blank" class="btn-secondary"><i
+                <a id="gmaps-link" href="#" target="_blank" class="btn-secondary"
+                    style="display: inline-block; width: 100%; padding: 12px; font-size: 1.1rem;"><i
                         class="fa-solid fa-map-location-dot"></i> Buka di Google Maps</a>
-            </div>
-
-            <div class="reviews-section">
-                <h3>Apa Kata Konsumen</h3>
-                <div class="rating-overall">
-                    <span id="overall-rating-number" class="big-rating">0</span>
-                    <i class="fa-solid fa-star" style="color: #ffc107;"></i>
-                </div>
-                <div id="reviews-list" class="reviews-list">
-                    <!-- Reviews rendered dynamically -->
-                </div>
             </div>
         </div>
     </div>
@@ -124,35 +160,62 @@
         </div>
     </div>
 
-    <!-- Checkout Modal -->
+    <!-- END OF SIDEBAR CART MODAL -->
+
+    <!-- Checkout / Payment Modal -->
     <div id="checkout-modal" class="modal">
-        <div class="modal-content" style="max-width: 400px;">
+        <div class="modal-content" style="max-width: 450px; text-align: center;">
             <span class="close-btn" id="close-checkout-modal">&times;</span>
-            <h2>Pembayaran</h2>
-            <div class="checkout-summary">
-                <p>Total Tagihan: <strong id="checkout-total"
-                        style="font-size: 1.2rem; display: block; margin: 10px 0;">Rp 0</strong></p>
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <label style="display:block; margin-bottom:5px;">Uang Terbayar (Rp)</label>
-                    <input type="number" id="checkout-paid" placeholder="Masukkan jumlah uang" required min="0"
-                        style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--glass-border); background:rgba(0,0,0,0.2); color:white;">
-                </div>
-                <div id="checkout-change-container"
-                    style="display:none; margin: 15px 0; padding: 15px; background: rgba(34,197,94,0.1); border-left: 4px solid #22c55e; border-radius: 4px;">
-                    <p>Kembalian: <strong id="checkout-change" style="color: #22c55e; font-size: 1.2rem;">Rp 0</strong>
-                    </p>
-                </div>
-                <p id="checkout-error" style="color:red; margin-bottom:15px;"></p>
-                <button id="btn-process-payment" class="btn-primary" style="width:100%;">Proses Pembayaran</button>
+            <h2 style="margin-bottom: 10px;">Pembayaran</h2>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">Silakan selesaikan pembayaran pesanan Anda.</p>
+
+            <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                <h3 style="font-size: 1rem; color: var(--text-muted);">Total Tagihan</h3>
+                <h2 id="checkout-total" style="color: var(--primary-col); font-size: 2rem; margin: 5px 0;">Rp 0</h2>
             </div>
+
+            <div class="form-group" style="text-align: left;">
+                <label>Nominal Uang Pembeli (Rp)</label>
+                <input type="number" id="uang-pembeli" placeholder="Contoh: 50000"
+                    style="width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; margin-bottom:10px;">
+            </div>
+
+            <div id="kembalian-area"
+                style="display: none; background: rgba(34, 197, 94, 0.1); padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid rgba(34, 197, 94, 0.3);">
+                <h3 style="font-size: 0.9rem; color: #166534;">Kembalian</h3>
+                <h2 id="uang-kembalian" style="color: #22c55e; font-size: 1.5rem; margin: 5px 0;">Rp 0</h2>
+            </div>
+
+            <button id="btn-confirm-pay" class="btn-primary" style="width: 100%;">Konfirmasi & Bayar</button>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <p>&copy; 2026 Warkop Ayah. All Rights Reserved.</p>
-            <a href="#" id="exit-btn" class="exit-link">Keluar dari Sistem</a>
+    <!-- Toast Notification Container -->
+    <div id="toast-container"
+        style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px;">
+    </div>
+
+    <!-- Main Footer -->
+    <footer class="main-footer" style="padding: 40px 20px; background: #333; color: white; margin-top: 50px;">
+        <div
+            style="max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+            <div>
+                <a href="#" class="logo footer-logo" style="margin-bottom: 5px; display: inline-block;">
+                    <span style="color:var(--primary-col); font-size: 1.5rem; font-weight: 800;">WARKOP AYAH</span><br>
+                    <span class="logo-sub" style="font-size: 0.9rem; letter-spacing: 2px;">COFFEE & FOOD</span>
+                </a>
+                <p style="margin-top: 10px; color: #aaa; font-size: 0.9rem;">Menyajikan cita rasa premium sejak dahulu.
+                </p>
+            </div>
+
+            <div style="text-align: right; font-size: 0.9rem; color: #aaa;">
+                <p><i class="fa-solid fa-map-pin" style="color: var(--primary-col);"></i> Jl. Kedurus lll Sd No.32
+                    Surabaya, Karangpilang 60223
+                </p>
+                <p style="margin-top: 5px;"><i class="fa-brands fa-whatsapp" style="color: var(--primary-col);"></i> +62
+                    813-3357-1793</p>
+                <p style="margin-top: 20px;">&copy; 2026 Warkop Ayah. All Rights Reserved.</p>
+            </div>
         </div>
     </footer>
 

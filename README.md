@@ -9,12 +9,12 @@ Proyek ini adalah sistem Web untuk manajemen pemesanan, keranjang kasir (Checkou
 Jika Anda baru saja men-download/clone berpusat dari GitHub untuk dipindah ke laptop lain, ikuti langkah-langkah di bawah agar program bisa berjalan lancar:
 
 ### 1. Persiapan Database MySQL (Penting!)
-Sebenarnya, Anda **TIDAK PERLU repot** menjalankan panjang-lebar script `.sql` untuk membuat tabel karena Python sudah dirancang otomatis menciptakan tabel (beserta Akun Admin default). Anda cukup membuat Database kosong bernama `restoran_db`:
+Sebenarnya, Anda **TIDAK PERLU repot** menjalankan panjang-lebar script `.sql` untuk membuat tabel karena Python sudah dirancang otomatis menciptakan tabel (beserta Akun Admin default). Anda cukup membuat Database kosong bernama `warkop.ayah`:
 
 **Cara 1 (Cepat via Laragon / XAMPP):**
 1. Buka aplikasi **Laragon** (atau XAMPP) lalu Start Server **MySQL**-nya.
 2. Buka HeidiSQL / phpMyAdmin.
-3. Buat database baru dengan nama pasti: `restoran_db`.
+3. Buat database baru dengan nama pasti: `warkop.ayah`.
 4. Eksport File `database.sql` di dalam database yang baru dibuat tadi
 5. Selesai!
 `
