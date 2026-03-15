@@ -1,24 +1,20 @@
 const API_URL = 'http://127.0.0.1:5000/api';
 
-// DOM Elements
 const menuGrid = document.getElementById('menu-grid');
 const categoryFilter = document.getElementById('category-filter');
 const loader = document.getElementById('loader');
 const cartTotalEl = document.getElementById('cart-total');
 const btnCheckout = document.getElementById('btn-checkout');
 
-// Modal Elements
 const menuModal = document.getElementById('menu-modal');
 const closeMenuModalBtn = document.getElementById('close-menu-modal');
 const mapsModal = document.getElementById('maps-modal');
 const closeMapsModalBtn = document.getElementById('close-maps-modal');
 
-// Cart Elements
 const cartModal = document.getElementById('cart-modal');
 const cartFloatingBtn = document.getElementById('cart-floating-btn');
-const closeCartModal = document.getElementById('close-cart-modal'); // Assuming this is a new element to be added
+const closeCartModal = document.getElementById('close-cart-modal');
 
-// Payment Modal Elements
 const checkoutModal = document.getElementById('checkout-modal');
 const closeCheckoutModal = document.getElementById('close-checkout-modal');
 const paymentTotalEl = document.getElementById('checkout-total');
@@ -27,17 +23,19 @@ const kembalianArea = document.getElementById('kembalian-area');
 const kembalianTxt = document.getElementById('uang-kembalian');
 const btnConfirmPay = document.getElementById('btn-confirm-pay');
 
-// Init variables
 let cart = [];
 let menus = [];
 let categories = [];
+let currentCategory = 'all';
 
-// Init App
 document.addEventListener('DOMContentLoaded', () => {
     fetchMenus('all');
     fetchCategories();
 
-    // Event Listeners
+    if (document.getElementById('search-menu-input')) {
+        document.getElementById('search-menu-input').addEventListener('input', filterMenus);
+    }
+
     if (document.getElementById('nav-maps')) document.getElementById('nav-maps').addEventListener('click', (e) => { e.preventDefault(); openMapsModal(); });
 
     if (document.getElementById('exit-btn')) {
@@ -50,7 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Close Modals Settings
     window.addEventListener('click', (e) => {
         if (e.target === menuModal) closeMenuModal();
         if (e.target === mapsModal) closeMapsModal();
@@ -60,11 +57,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (closeMapsModalBtn) closeMapsModalBtn.addEventListener('click', closeMapsModal);
     if (closeMenuModalBtn) closeMenuModalBtn.addEventListener('click', closeMenuModal);
 
-    // Add event listeners for modal buttons here to prevent breakage
     const leftArrow = document.querySelector('.left-arrow');
     const rightArrow = document.querySelector('.right-arrow');
 
-    // Mouse Drag to Scroll
     let isDown = false;
     let startX;
     let scrollLeft;
@@ -88,12 +83,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!isDown) return;
             e.preventDefault();
             const x = e.pageX - menuGrid.offsetLeft;
-            const walk = (x - startX) * 2; // scroll-fast
+            const walk = (x - startX) * 2;
             menuGrid.scrollLeft = scrollLeft - walk;
         });
     }
 
-    // Cart Events
     if (cartFloatingBtn) {
         cartFloatingBtn.addEventListener('click', () => {
             updateCartUI();
@@ -114,7 +108,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (inputUang) inputUang.addEventListener('input', calculateChange);
 });
 
-// Fetch Menus
 async function fetchMenus(categoryId = '') {
     loader.style.display = 'block';
     menuGrid.innerHTML = '';
@@ -132,14 +125,33 @@ async function fetchMenus(categoryId = '') {
     }
 }
 
-// Bind existing category filters defined in HTML
-function fetchCategories() {
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const catId = e.target.dataset.id;
-            handleCategoryClick(e, catId);
+async function fetchCategories() {
+    try {
+        const res = await fetch(`${API_URL}/categories`);
+        if (!res.ok) throw new Error("Gagal mengambil data kategori");
+        categories = await res.json();
+
+        const filterContainer = document.getElementById('category-filter');
+        // Keep the 'Semua' button, append the rest
+        categories.forEach(cat => {
+            const btn = document.createElement('button');
+            btn.className = 'filter-btn';
+            btn.dataset.id = cat.name;
+            btn.style.border = 'none';
+            btn.style.color = 'var(--text-muted)';
+            btn.textContent = cat.name;
+            filterContainer.appendChild(btn);
         });
-    });
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const catId = e.target.dataset.id;
+                handleCategoryClick(e, catId);
+            });
+        });
+    } catch (error) {
+        console.error('Error fetching categories:', error);
+    }
 }
 
 function handleCategoryClick(e, categoryName) {
@@ -153,20 +165,33 @@ function handleCategoryClick(e, categoryName) {
     e.target.style.borderBottom = '2px solid var(--text-white)';
     e.target.style.color = 'var(--text-white)';
 
-    if (categoryName === 'all') {
-        renderMenus(menus);
-    } else {
-        const filtered = menus.filter(m => {
-            const mCat = String(m.category || '').toLowerCase();
-            const mName = String(m.name || '').toLowerCase();
-            const search = String(categoryName).toLowerCase();
-            return mCat.includes(search) || mName.includes(search);
-        });
-        renderMenus(filtered);
-    }
+    currentCategory = categoryName;
+    filterMenus();
 }
 
-// Review Submit Mock
+function filterMenus() {
+    let filtered = menus;
+    const searchInput = document.getElementById('search-menu-input');
+    const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+
+    if (currentCategory !== 'all') {
+        filtered = filtered.filter(m => {
+            const mCat = String(m.category || '').toLowerCase();
+            return mCat === currentCategory.toLowerCase();
+        });
+    }
+
+    if (searchTerm) {
+        filtered = filtered.filter(m => {
+            const mName = String(m.name || '').toLowerCase();
+            const mDesc = String(m.description || '').toLowerCase();
+            return mName.includes(searchTerm) || mDesc.includes(searchTerm);
+        });
+    }
+
+    renderMenus(filtered);
+}
+
 function submitReview() {
     const name = document.getElementById('review-name').value;
     const rating = document.getElementById('review-rating').value;
@@ -179,7 +204,6 @@ function submitReview() {
 
     alert("Terima kasih! Review dan momen Anda telah berhasil dikirim.");
 
-    // Create new mock block
     const list = document.getElementById('public-reviews-list');
     const stars = Array(Number(rating)).fill('<i class="fa-solid fa-star"></i>').join('');
 
@@ -200,7 +224,6 @@ function submitReview() {
     document.getElementById('review-image').value = '';
 }
 
-// --- Scrolling Spy Logic ---
 function navScrollSpy() {
     const sections = document.querySelectorAll('section, header');
     const navLinks = document.querySelectorAll('.nav-links a.nav-btn');
@@ -222,7 +245,6 @@ function navScrollSpy() {
 }
 window.addEventListener('scroll', navScrollSpy);
 
-// Render Menus
 function renderMenus(menuData) {
     menuGrid.innerHTML = '';
     if (menuData.length === 0) {
@@ -267,7 +289,6 @@ function renderMenus(menuData) {
     });
 }
 
-// Modals Logic
 async function openMenuDetail(id) {
     try {
         const res = await fetch(`${API_URL}/menus/${id}`);
@@ -283,7 +304,7 @@ async function openMenuDetail(id) {
             imgEl.src = `http://127.0.0.1:5000${menu.image_url}`;
             imgEl.style.display = 'block';
         } else {
-            imgEl.style.display = 'none'; // simple handling
+            imgEl.style.display = 'none';
         }
 
         menuModal.classList.add('show');
@@ -299,7 +320,7 @@ function closeMenuModal() {
 
 async function openMapsModal() {
     try {
-        // Fetch mock map
+
         const mapRes = await fetch(`${API_URL}/maps`);
         const mapData = await mapRes.json();
 
@@ -315,7 +336,6 @@ function closeMapsModal() {
     mapsModal.classList.remove('show');
 }
 
-// === SHOPPING CART LOGIC ===
 function addToCart(menuId) {
     const menu = menus.find(m => m.id === menuId);
     if (!menu || menu.stock <= 0) return;
@@ -334,7 +354,6 @@ function addToCart(menuId) {
 
     updateCartUI();
 
-    // Animate badge
     const badge = document.getElementById('cart-badge');
     badge.style.transform = 'scale(1.5)';
     setTimeout(() => badge.style.transform = 'scale(1)', 200);
@@ -395,14 +414,12 @@ function removeCartItem(index) {
     updateCartUI();
 }
 
-// === CHECKOUT LOGIC ===
 function openCheckoutModal() {
     const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     document.getElementById('checkout-total').textContent = `Rp ${totalPrice.toLocaleString('id-ID')}`;
     const inputUangEl = document.getElementById('uang-pembeli');
     inputUangEl.value = '';
 
-    // Ensure the event listener is locally bound to trigger instantly when typing
     inputUangEl.oninput = calculateChange;
 
     document.getElementById('kembalian-area').style.display = 'none';
@@ -454,7 +471,7 @@ async function processCheckout() {
             cart = [];
             updateCartUI();
             checkoutModal.classList.remove('show');
-            // Refresh menu list
+
             fetchMenus('all');
         } else {
             if (document.getElementById('checkout-error')) document.getElementById('checkout-error').textContent = data.msg || 'Terjadi kesalahan pada pembayaran.';

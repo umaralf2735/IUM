@@ -1,22 +1,17 @@
-/* Base Styles & Theme Variables */
+
 :root {
-    /* Primary Gold/Yellow from Figma */
+    
     --primary-col: #f7b70b;
     --primary-dark: #dca306;
 
-    /* Backgrounds: Light Mode */
     --bg-dark: #f8f9fa;
-    /* main body */
+    
     --bg-card: #ffffff;
-    /* modals & cards */
 
-    /* Text Colors */
     --text-white: #343434;
-    /* Dark gray for high contrast */
+    
     --text-muted: #a7a7a7;
-    /* Light gray for secondary text */
 
-    /* Glassmorphism over light mode */
     --glass-bg: rgba(255, 255, 255, 0.9);
     --glass-border: rgba(0, 0, 0, 0.05);
 }
@@ -35,7 +30,6 @@ body {
     overflow-x: hidden;
 }
 
-/* Typography & Utilities */
 h1,
 h2,
 h3,
@@ -84,7 +78,6 @@ a {
     background: #eee;
 }
 
-/* Navbar */
 .navbar {
     position: fixed;
     top: 0;
@@ -136,7 +129,6 @@ a {
     color: var(--primary-dark);
 }
 
-/* Navbar Adjustments */
 .new-nav {
     background: #333333;
     border-bottom: none;
@@ -166,7 +158,6 @@ a {
     padding-bottom: 5px;
 }
 
-/* Hero Section */
 .new-hero {
     height: 90vh;
     background: url('../images/v5_297.png') center center/cover no-repeat;
@@ -181,10 +172,9 @@ a {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.1);
-    /* light overlay */
+    
 }
 
-/* Menu Section */
 .menu-section {
     padding: 100px 20px;
     max-width: 1200px;
@@ -205,7 +195,6 @@ a {
     color: var(--text-muted);
 }
 
-/* Categories */
 .category-filter {
     display: flex;
     justify-content: center;
@@ -234,7 +223,6 @@ a {
     box-shadow: 0 4px 15px rgba(247, 183, 11, 0.3);
 }
 
-/* Menu Grid */
 .menu-grid {
     display: flex;
     overflow-x: auto;
@@ -243,7 +231,6 @@ a {
     scroll-behavior: smooth;
 }
 
-/* Custom Horizontal Scrollbar */
 .menu-grid::-webkit-scrollbar {
     height: 8px;
 }
@@ -290,7 +277,6 @@ a {
     margin: 0 auto;
 }
 
-/* Fallback background for images */
 .img-fallback {
     display: flex;
     align-items: center;
@@ -344,7 +330,6 @@ a {
     right: 10%;
 }
 
-/* Custom Sections */
 .about-section {
     background: #f4f4f4;
     padding: 80px 20px;
@@ -429,7 +414,6 @@ a {
     border-radius: 5px;
 }
 
-/* Footer UI */
 .main-footer {
     background: #4a4543;
     padding: 60px 20px;
@@ -491,7 +475,6 @@ a {
     color: white;
 }
 
-/* Loader */
 .loader-container {
     text-align: center;
     padding: 50px;
@@ -514,7 +497,6 @@ a {
     }
 }
 
-/* Modals */
 .modal {
     display: none;
     position: fixed;
@@ -568,7 +550,6 @@ a {
     color: var(--primary-col);
 }
 
-/* Menu Detail Modal Layout */
 .menu-detail-layout {
     display: flex;
     gap: 30px;
@@ -620,7 +601,6 @@ a {
     line-height: 1.8;
 }
 
-/* Footer */
 footer {
     text-align: center;
     padding: 40px 20px;
@@ -641,7 +621,6 @@ footer {
     text-decoration: underline;
 }
 
-/* Cart Floating */
 .cart-floating-btn {
     position: fixed;
     bottom: 30px;
@@ -681,7 +660,6 @@ footer {
     justify-content: center;
 }
 
-/* Cart Modal specific */
 .side-modal {
     margin: 0 0 0 auto;
     min-height: 100vh;
@@ -759,7 +737,6 @@ footer {
     padding-top: 15px;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .menu-detail-layout {
         flex-direction: column;
@@ -771,6 +748,6 @@ footer {
 
     .nav-links {
         display: none;
-        /* simple hidden for mobile mockup */
+        
     }
 }

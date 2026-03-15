@@ -15,7 +15,6 @@ def create_app(config_class=Config):
     db.init_app(app)
     jwt.init_app(app)
 
-    # ensure upload folder exists
     import os
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 

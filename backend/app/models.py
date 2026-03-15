@@ -38,7 +38,6 @@ class Menu(db.Model):
     price = db.Column(db.Float, nullable=False)
     stock = db.Column(db.Integer, default=0)
     
-    # Optional URL/Link for Google Maps Review or specific maps link
     google_maps_url = db.Column(db.String(255))
     map_reviews = db.Column(db.Text) 
     

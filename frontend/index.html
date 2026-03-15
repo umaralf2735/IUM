@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Warkop Ayah - Cita Rasa Premium</title>
-    <!-- Fonts added from Figma -->
+
     <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Work+Sans&display=swap" rel="stylesheet" />
@@ -14,7 +14,7 @@
 </head>
 
 <body>
-    <!-- Navbar -->
+
     <nav class="navbar new-nav">
         <div class="nav-container">
             <a href="#" class="logo">
@@ -34,38 +34,33 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section id="home" class="hero new-hero">
         <div class="hero-overlay"></div>
     </section>
 
-    <!-- Filter -->
     <section id="products" style="padding: 50px 20px 20px 20px; background:#fff;">
+        <div style="max-width: 600px; margin: 0 auto 20px auto; text-align: center;">
+            <input type="text" id="search-menu-input" placeholder="Cari pesanan"
+                style="width: 100%; padding: 12px 20px; font-size: 1rem; border: 1px solid #ddd; border-radius: 25px; outline: none; box-shadow: 0 4px 6px rgba(0,0,0,0.05); background-color: #f9fafb; color: #333;">
+        </div>
         <div class="category-filter" id="category-filter">
             <button class="filter-btn active" data-id="all"
                 style="border:none; border-bottom:2px solid var(--text-white); border-radius:0; color:var(--text-white); padding-bottom:5px;">Semua</button>
-            <button class="filter-btn" data-id="Makanan" style="border:none; color:var(--text-muted);">Makanan</button>
-            <button class="filter-btn" data-id="Minuman" style="border:none; color:var(--text-muted);">Minuman</button>
-            <button class="filter-btn" data-id="Snack" style="border:none; color:var(--text-muted);">Snack</button>
         </div>
     </section>
 
-    <!-- Menu Section (Product Carousel) -->
     <section class="menu-section" style="padding-top:20px; padding-bottom:100px; background:#fff; position:relative;">
 
-        <!-- Loading -->
         <div id="loader" class="loader-container">
             <div class="spinner"></div>
             <p>Memuat Etalase...</p>
         </div>
 
-        <!-- Grid Products -->
         <div class="menu-grid" id="menu-grid" style="max-width: 900px; margin: 0 auto;">
-            <!-- Generated Layout for Products from Python -->
+
         </div>
     </section>
 
-    <!-- About Section -->
     <section id="about" class="about-section">
         <div class="about-container">
             <div class="about-text">
@@ -85,7 +80,6 @@
         </div>
     </section>
 
-    <!-- Gallery Section -->
     <section id="moments" class="gallery-section">
         <p class="section-subtitle">MOMENTS</p>
         <h2>GALLERY</h2>
@@ -105,7 +99,7 @@
             <img src="images/v1_179.png" alt="M">
         </div>
     </section>
-    <!-- Menu Detail Modal -->
+
     <div id="menu-modal" class="modal">
         <div class="modal-content">
             <span class="close-btn" id="close-menu-modal">&times;</span>
@@ -123,7 +117,6 @@
         </div>
     </div>
 
-    <!-- Review/Maps Modal -->
     <div id="maps-modal" class="modal">
         <div class="modal-content" style="max-width: 400px; text-align: center;">
             <span class="close-btn" id="close-maps-modal">&times;</span>
@@ -138,19 +131,17 @@
         </div>
     </div>
 
-    <!-- Cart Floating Button -->
     <div id="cart-floating-btn" class="cart-floating-btn">
         <i class="fa-solid fa-cart-shopping"></i>
         <span id="cart-badge" class="cart-badge">0</span>
     </div>
 
-    <!-- Cart Sidebar/Modal -->
     <div id="cart-modal" class="modal">
         <div class="modal-content side-modal">
             <span class="close-btn" id="close-cart-modal">&times;</span>
             <h2>Keranjang Belanja</h2>
             <div id="cart-items" class="cart-items">
-                <!-- Cart items rendered here -->
+
             </div>
             <div class="cart-summary">
                 <div class="cart-total">Total: <span id="cart-total-price">Rp 0</span></div>
@@ -160,9 +151,6 @@
         </div>
     </div>
 
-    <!-- END OF SIDEBAR CART MODAL -->
-
-    <!-- Checkout / Payment Modal -->
     <div id="checkout-modal" class="modal">
         <div class="modal-content" style="max-width: 450px; text-align: center;">
             <span class="close-btn" id="close-checkout-modal">&times;</span>
@@ -190,12 +178,10 @@
         </div>
     </div>
 
-    <!-- Toast Notification Container -->
     <div id="toast-container"
         style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px;">
     </div>
 
-    <!-- Main Footer -->
     <footer class="main-footer" style="padding: 40px 20px; background: #333; color: white; margin-top: 50px;">
         <div
             style="max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">

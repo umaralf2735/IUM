@@ -4,7 +4,6 @@ from docx.shared import Pt, Inches
 def generate_manual():
     doc = Document()
     
-    # Title
     doc.add_heading('Buku Panduan Penggunaan Website Warkop Ayah', 0)
     
     doc.add_paragraph('Dokumen ini berisi langkah-langkah detail penggunaan fitur website Warkop Ayah baik dari kacamata pelanggan maupun dari sisi admin.')

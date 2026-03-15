@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Admin - Warkop Ayah</title>
-    <!-- Fonts added from Figma -->
+    
     <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Work+Sans&display=swap" rel="stylesheet" />
@@ -16,7 +16,6 @@
 
 <body class="dashboard-body">
 
-    <!-- Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <h2>Admin<span>Panel</span></h2>
@@ -38,14 +37,13 @@
         </div>
     </aside>
 
-    <!-- Main Content -->
     <main class="main-content">
         <header class="top-header">
             <h1>Selamat Datang, Admin</h1>
         </header>
 
         <div class="content-sections">
-            <!-- Dashboard Home -->
+            
             <section id="dashboard" class="admin-section active">
                 <div class="stats-grid">
                     <div class="stat-card">
@@ -59,7 +57,6 @@
                 </div>
             </section>
 
-            <!-- Manage Menus -->
             <section id="manage-menus" class="admin-section">
                 <div class="section-header">
                     <h2>Daftar Menu</h2>
@@ -79,13 +76,12 @@
                             </tr>
                         </thead>
                         <tbody id="tbl-menus">
-                            <!-- Populated by JS -->
+                            
                         </tbody>
                     </table>
                 </div>
             </section>
 
-            <!-- Manage Categories -->
             <section id="manage-categories" class="admin-section">
                 <div class="section-header">
                     <h2>Daftar Kategori</h2>
@@ -109,7 +105,6 @@
                 </div>
             </section>
 
-            <!-- Manage Images -->
             <section id="manage-images" class="admin-section">
                 <div class="section-header">
                     <h2>Galeri Gambar</h2>
@@ -119,11 +114,10 @@
                     </form>
                 </div>
                 <div class="image-grid" id="admin-image-grid">
-                    <!-- Images listed here -->
+                    
                 </div>
             </section>
 
-            <!-- Manage Admins -->
             <section id="manage-admins" class="admin-section">
                 <div class="section-header">
                     <h2>Tambah Akun Admin</h2>
@@ -146,7 +140,6 @@
         </div>
     </main>
 
-    <!-- Modal Form Menu -->
     <div id="admin-menu-modal" class="modal">
         <div class="modal-content" style="max-width: 500px;">
             <span class="close-btn" onclick="closeMenuForm()">&times;</span>

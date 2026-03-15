@@ -8,8 +8,6 @@ from app.models import Admin, Category, Image, Menu
 
 api_bp = Blueprint('api', __name__)
 
-# --- USER ENDPOINTS ---
-
 @api_bp.route('/menus', methods=['GET'])
 def get_menus():
     category_id = request.args.get('category_id')
@@ -26,7 +24,6 @@ def get_menu_detail(id):
 
 @api_bp.route('/maps', methods=['GET'])
 def get_maps():
-    # Mock endpoint for general Maps URL
     return jsonify({
         "status": "success",
         "maps_url": "https://maps.google.com/?q=Warkop+Ayah",
@@ -35,7 +32,6 @@ def get_maps():
 
 @api_bp.route('/maps/reviews', methods=['GET'])
 def get_maps_reviews():
-    # Mock endpoint for Google Maps Reviews
     return jsonify({
         "status": "success",
         "reviews": [
@@ -44,8 +40,6 @@ def get_maps_reviews():
         ],
         "overall_rating": 5
     }), 200
-
-# --- ADMIN AUTH ---
 
 @api_bp.route('/admin/login', methods=['POST'])
 def admin_login():
@@ -63,9 +57,6 @@ def admin_login():
     
     return jsonify({"msg": "Invalid username or password"}), 401
 
-# --- ADMIN ENDPOINTS (PROTECTED) ---
-
-# Admin Account Management
 @api_bp.route('/admin/accounts', methods=['POST'])
 @jwt_required()
 def create_admin():
@@ -86,7 +77,6 @@ def create_admin():
 
     return jsonify({"msg": "Admin created successfully"}), 201
 
-# Category Management
 @api_bp.route('/admin/categories', methods=['GET'])
 @jwt_required()
 def get_categories():
@@ -118,11 +108,11 @@ def manage_category(id):
         return jsonify({"msg": "Category updated"}), 200
         
     elif request.method == 'DELETE':
+        Menu.query.filter_by(category_id=cat.id).delete()
         db.session.delete(cat)
         db.session.commit()
-        return jsonify({"msg": "Category deleted"}), 200
+        return jsonify({"msg": "Category and its menus deleted"}), 200
 
-# Image Management
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'png', 'jpg', 'jpeg', 'gif', 'webp'}
 
@@ -174,13 +164,11 @@ def delete_image(id):
     db.session.commit()
     return jsonify({"msg": "Image deleted"}), 200
 
-# Menu Management
 @api_bp.route('/admin/menus', methods=['POST'])
 @jwt_required()
 def create_menu():
     data = request.get_json() or {}
     
-    # Required fields
     if not all(k in data for k in ("name", "price", "category_id")):
         return jsonify({"msg": "Missing required fields (name, price, category_id)"}), 400
         
@@ -222,7 +210,6 @@ def manage_admin_menu(id):
         db.session.commit()
         return jsonify({"msg": "Menu deleted"}), 200
 
-# --- CHECKOUT SYSTEM ---
 @api_bp.route('/checkout', methods=['POST'])
 def checkout():
     data = request.get_json() or {}
@@ -233,7 +220,6 @@ def checkout():
         return jsonify({"msg": "Cart is empty"}), 400
         
     total_price = 0
-    # Pre-check all items and stock
     for item in cart:
         menu = Menu.query.get(item['id'])
         if not menu:
@@ -247,7 +233,6 @@ def checkout():
         
     change = amount_paid - total_price
     
-    # Process order and subtract stock
     for item in cart:
         menu = Menu.query.get(item['id'])
         menu.stock -= item['quantity']

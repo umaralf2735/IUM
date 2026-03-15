@@ -1,7 +1,7 @@
 const API_URL = 'http://127.0.0.1:5000/api';
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Check if already logged in
+    
     const token = localStorage.getItem('adminToken');
     if (token) {
         window.location.href = 'dashboard.html';
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await res.json();
 
             if (res.ok) {
-                // Save token
+                
                 localStorage.setItem('adminToken', data.access_token);
                 window.location.href = 'dashboard.html';
             } else {

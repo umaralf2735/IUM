@@ -1,7 +1,6 @@
 const API_URL = 'http://127.0.0.1:5000/api';
 const token = localStorage.getItem('adminToken');
 
-// Middleware to check auth
 if (!token) {
     window.location.href = 'login.html';
 }
@@ -10,7 +9,6 @@ const headers = {
     'Authorization': `Bearer ${token}`
 };
 
-// Global Store
 let currentCategories = [];
 let currentImages = [];
 
@@ -18,20 +16,17 @@ document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
     loadDashboardData();
 
-    // Logout
     document.getElementById('logout-btn').addEventListener('click', () => {
         localStorage.removeItem('adminToken');
         window.location.href = 'login.html';
     });
 
-    // Form Submissions
     document.getElementById('add-category-form').addEventListener('submit', handleAddCategory);
     document.getElementById('upload-image-form').addEventListener('submit', handleUploadImage);
     document.getElementById('menu-form').addEventListener('submit', handleSaveMenu);
     document.getElementById('add-admin-form').addEventListener('submit', handleAddAdmin);
 });
 
-// --- Navigation ---
 function initNavigation() {
     const navItems = document.querySelectorAll('.nav-item');
     const sections = document.querySelectorAll('.admin-section');
@@ -47,7 +42,6 @@ function initNavigation() {
             sections.forEach(sec => sec.classList.remove('active'));
             document.getElementById(targetId).classList.add('active');
 
-            // Refresh data based on view
             if (targetId === 'manage-menus') loadMenus();
             if (targetId === 'manage-categories') loadCategories();
             if (targetId === 'manage-images') loadImages();
@@ -55,10 +49,9 @@ function initNavigation() {
     });
 }
 
-// --- Data Loaders ---
 async function loadDashboardData() {
     loadCategories();
-    loadMenus(true); // silent load to get count
+    loadMenus(true); 
 }
 
 async function apiFetch(endpoint, options = {}) {
@@ -82,7 +75,6 @@ async function apiFetch(endpoint, options = {}) {
     }
 }
 
-// -- Categories --
 async function loadCategories() {
     const res = await apiFetch('/admin/categories');
     if (!res) return;
@@ -135,10 +127,9 @@ async function deleteCategory(id) {
     else alert('Gagal menghapus kategori. Mungkin sedang digunakan oleh menu.');
 }
 
-// -- Menus --
 let globalMenus = [];
 async function loadMenus(silent = false) {
-    const res = await fetch(`${API_URL}/menus`); // public endpoint used for reading
+    const res = await fetch(`${API_URL}/menus`); 
     if (!res.ok) return;
     const data = await res.json();
     globalMenus = data;
@@ -154,12 +145,12 @@ async function loadMenus(silent = false) {
         let stockColor = 'var(--text)';
         let stockText = m.stock;
         if (m.stock <= 0) {
-            stockColor = '#ef4444'; // Red for empty
+            stockColor = '#ef4444'; 
             stockText = 'Habis';
         } else if (m.stock > 10) {
-            stockColor = '#22c55e'; // Green for high stock
+            stockColor = '#22c55e'; 
         } else {
-            stockColor = '#eab308'; // Yellow for low stock
+            stockColor = '#eab308'; 
         }
 
         tbody.innerHTML += `
@@ -183,7 +174,6 @@ function openMenuForm() {
     document.getElementById('menu-id').value = '';
     document.getElementById('menu-form-title').textContent = 'Tambah Menu';
 
-    // populate images dropdown
     const imgSelect = document.getElementById('m-image');
     imgSelect.innerHTML = '<option value="">-- Tanpa Gambar --</option>';
     currentImages.forEach(img => {
@@ -198,7 +188,7 @@ function closeMenuForm() {
 }
 
 async function editMenu(id) {
-    // ensure images are loaded
+    
     await loadImages();
 
     const menu = globalMenus.find(m => m.id === id);
@@ -212,8 +202,6 @@ async function editMenu(id) {
     document.getElementById('m-stock').value = menu.stock || 0;
     document.getElementById('m-category').value = menu.category_id;
 
-    // Attempt to set image if it exists in data
-    // Requires modifying backend to return image_id or matching by URL
 }
 
 async function handleSaveMenu(e) {
@@ -249,7 +237,6 @@ async function deleteMenu(id) {
     if (res && res.ok) loadMenus();
 }
 
-// -- Images --
 async function loadImages() {
     const res = await apiFetch('/admin/images');
     if (!res) return;
@@ -277,7 +264,6 @@ async function handleUploadImage(e) {
     const formData = new FormData();
     formData.append('file', fileInput.files[0]);
 
-    // Construct headers without Content-Type to allow browser boundary generation
     const uploadHeaders = { 'Authorization': `Bearer ${token}` };
 
     try {
@@ -305,7 +291,6 @@ async function deleteImage(id) {
     if (res && res.ok) loadImages();
 }
 
-// -- Admins --
 async function handleAddAdmin(e) {
     e.preventDefault();
     const username = document.getElementById('new-admin-user').value;
@@ -322,7 +307,7 @@ async function handleAddAdmin(e) {
 
     if (res && res.ok) {
         msgEl.textContent = 'Admin berhasil ditambahkan!';
-        msgEl.style.color = '#4ade80'; // green
+        msgEl.style.color = '#4ade80'; 
         e.target.reset();
     } else {
         const d = await res.json();
