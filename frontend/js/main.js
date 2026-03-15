@@ -28,9 +28,38 @@ let menus = [];
 let categories = [];
 let currentCategory = 'all';
 
+// Carousel Logic
+let slideIndex = 1;
+
+function changeSlide(n) {
+    showSlides(slideIndex += n);
+}
+
+function currentSlide(n) {
+    showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+    let i;
+    let slides = document.getElementsByClassName("carousel-slide");
+    let dots = document.getElementsByClassName("dot");
+    if (slides.length === 0) return;
+    if (n > slides.length) { slideIndex = 1 }
+    if (n < 1) { slideIndex = slides.length }
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+    }
+    for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+    }
+    slides[slideIndex - 1].style.display = "block";
+    dots[slideIndex - 1].className += " active";
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     fetchMenus('all');
     fetchCategories();
+    showSlides(slideIndex);
 
     if (document.getElementById('search-menu-input')) {
         document.getElementById('search-menu-input').addEventListener('input', filterMenus);

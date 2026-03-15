@@ -17,9 +17,10 @@
 
     <nav class="navbar new-nav">
         <div class="nav-container">
-            <a href="#" class="logo">
-                <span style="color:var(--primary-col);">WARKOP AYAH</span><br>
-                <span class="logo-sub">COFFEE & FOOD</span>
+            <a href="#" class="logo"
+                style="text-decoration:none; display:flex; flex-direction:column; align-items:center;">
+                <span class="v44_568" style="color:var(--primary-col);">WARKOP AYAH</span>
+                <span class="v44_569">COFFEE <span style="color:var(--primary-col);">&</span> FOOD</span>
             </a>
             <ul class="nav-links">
                 <li><a href="#home" class="nav-btn active">HOME</a></li>
@@ -35,7 +36,27 @@
     </nav>
 
     <section id="home" class="hero new-hero">
-        <div class="hero-overlay"></div>
+        <div class="carousel-container">
+            <div class="carousel-slide fade">
+                <img src="images/v51_588.png" alt="Warkop Banner 1" style="width: 100%; height: auto; display: block;">
+            </div>
+            <div class="carousel-slide fade">
+                <img src="images/v51_589.png" alt="Warkop Banner 2" style="width: 100%; height: auto; display: block;">
+            </div>
+            <div class="carousel-slide fade">
+                <img src="images/v51_590.png" alt="Warkop Banner 3" style="width: 100%; height: auto; display: block;">
+            </div>
+
+            <a class="prev-slide" onclick="changeSlide(-1)">&#10094;</a>
+            <a class="next-slide" onclick="changeSlide(1)">&#10095;</a>
+
+            <div class="carousel-dots">
+                <span class="dot" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
+            </div>
+        </div>
+        <div class="hero-overlay" style="pointer-events: none;"></div>
     </section>
 
     <section id="products" style="padding: 50px 20px 20px 20px; background:#fff;">
