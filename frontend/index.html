@@ -152,53 +152,6 @@
         </div>
     </div>
 
-    <div id="cart-floating-btn" class="cart-floating-btn">
-        <i class="fa-solid fa-cart-shopping"></i>
-        <span id="cart-badge" class="cart-badge">0</span>
-    </div>
-
-    <div id="cart-modal" class="modal">
-        <div class="modal-content side-modal">
-            <span class="close-btn" id="close-cart-modal">&times;</span>
-            <h2>Keranjang Belanja</h2>
-            <div id="cart-items" class="cart-items">
-
-            </div>
-            <div class="cart-summary">
-                <div class="cart-total">Total: <span id="cart-total-price">Rp 0</span></div>
-                <button id="btn-checkout" class="btn-primary" style="width:100%; margin-top:15px;" disabled>Lanjut
-                    Pembayaran</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="checkout-modal" class="modal">
-        <div class="modal-content" style="max-width: 450px; text-align: center;">
-            <span class="close-btn" id="close-checkout-modal">&times;</span>
-            <h2 style="margin-bottom: 10px;">Pembayaran</h2>
-            <p style="color: var(--text-muted); margin-bottom: 20px;">Silakan selesaikan pembayaran pesanan Anda.</p>
-
-            <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
-                <h3 style="font-size: 1rem; color: var(--text-muted);">Total Tagihan</h3>
-                <h2 id="checkout-total" style="color: var(--primary-col); font-size: 2rem; margin: 5px 0;">Rp 0</h2>
-            </div>
-
-            <div class="form-group" style="text-align: left;">
-                <label>Nominal Uang Pembeli (Rp)</label>
-                <input type="number" id="uang-pembeli" placeholder="Contoh: 50000"
-                    style="width:100%; padding:12px; border:1px solid #ddd; border-radius:8px; margin-bottom:10px;">
-            </div>
-
-            <div id="kembalian-area"
-                style="display: none; background: rgba(34, 197, 94, 0.1); padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid rgba(34, 197, 94, 0.3);">
-                <h3 style="font-size: 0.9rem; color: #166534;">Kembalian</h3>
-                <h2 id="uang-kembalian" style="color: #22c55e; font-size: 1.5rem; margin: 5px 0;">Rp 0</h2>
-            </div>
-
-            <button id="btn-confirm-pay" class="btn-primary" style="width: 100%;">Konfirmasi & Bayar</button>
-        </div>
-    </div>
-
     <div id="toast-container"
         style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px;">
     </div>

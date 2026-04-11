@@ -1,9 +1,7 @@
 CREATE DATABASE IF NOT EXISTS `warkop.ayah`;
 USE `warkop.ayah`;
 
--- SQL Berikut akan membuat struktur tabel untuk aplikasi Warkop Ayah --
--- CATATAN: Langkah ini (opsional) karena Flask SQLAlchemy otomatis membuat tabel --
--- saat pertama kali aplikasi dijalankan (`python run.py`) --
+
 
 CREATE TABLE IF NOT EXISTS `admins` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -38,12 +36,10 @@ CREATE TABLE IF NOT EXISTS `menus` (
   `image_id` int DEFAULT NULL,
   `stock` int DEFAULT '0',
   PRIMARY KEY (`id`),
-  -- Pastikan Anda memasukkan KEY yang bersesuaian dengan urutan input --
+  
   CONSTRAINT `menus_cat_fk` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`),
   CONSTRAINT `menus_img_fk` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`)
 );
 
--- NOTE: 
--- Akun Default Admin tidak perlu di-insert manual ke dalam SQL.
--- Python backend (app/run.py) telah dimodifikasi untuk membuat username 'admin'
--- dengan password 'admin123' secara otomatis jika database terdeteksi masih kosong.
+
+
