@@ -48,6 +48,24 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchCategories();
     showSlides(slideIndex);
 
+    // Secret entry step for admin: 5 clicks on footer logo within 2 seconds
+    let secretClickCount = 0;
+    let secretClickTimer;
+    const footerLogo = document.querySelector('.footer-logo');
+    if (footerLogo) {
+        footerLogo.addEventListener('click', (e) => {
+            e.preventDefault();
+            secretClickCount++;
+            clearTimeout(secretClickTimer);
+            if (secretClickCount >= 5) {
+                window.location.href = 'admin/login.html';
+            }
+            secretClickTimer = setTimeout(() => {
+                secretClickCount = 0;
+            }, 1000);
+        });
+    }
+
     if (document.getElementById('search-menu-input')) {
         document.getElementById('search-menu-input').addEventListener('input', filterMenus);
     }
