@@ -174,10 +174,20 @@ function openMenuForm() {
     document.getElementById('menu-id').value = '';
     document.getElementById('menu-form-title').textContent = 'Tambah Menu';
 
-    const imgSelect = document.getElementById('m-image');
-    imgSelect.innerHTML = '<option value="">-- Tanpa Gambar --</option>';
+    document.getElementById('m-image').value = '';
+
+    const imgPicker = document.getElementById('m-image-picker');
+    imgPicker.innerHTML = `
+        <div class="image-picker-item selected no-image" onclick="selectImage('')" id="img-picker-">
+            Tanpa<br>Gambar
+        </div>
+    `;
     currentImages.forEach(img => {
-        imgSelect.innerHTML += `<option value="${img.id}">${img.filename}</option>`;
+        imgPicker.innerHTML += `
+            <div class="image-picker-item" onclick="selectImage('${img.id}')" id="img-picker-${img.id}">
+                <img src="http://127.0.0.1:5000${img.url}" alt="image">
+            </div>
+        `;
     });
 
     document.getElementById('admin-menu-modal').classList.add('show');
@@ -185,6 +195,15 @@ function openMenuForm() {
 
 function closeMenuForm() {
     document.getElementById('admin-menu-modal').classList.remove('show');
+}
+
+window.selectImage = function(id) {
+    document.getElementById('m-image').value = id;
+    document.querySelectorAll('.image-picker-item').forEach(el => el.classList.remove('selected'));
+    const targetItem = document.getElementById(`img-picker-${id}`);
+    if (targetItem) {
+        targetItem.classList.add('selected');
+    }
 }
 
 async function editMenu(id) {
@@ -202,6 +221,9 @@ async function editMenu(id) {
     document.getElementById('m-stock').value = menu.stock || 0;
     document.getElementById('m-category').value = menu.category_id;
 
+    if (menu.image_id) {
+        selectImage(menu.image_id);
+    }
 }
 
 async function handleSaveMenu(e) {
