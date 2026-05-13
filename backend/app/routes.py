@@ -26,19 +26,8 @@ def get_menu_detail(id):
 def get_maps():
     return jsonify({
         "status": "success",
-        "maps_url": "https://maps.google.com/?q=Warkop+Ayah",
+        "maps_url": "https://maps.google.com/?q=Warkop+Ayah+Kedurus",
         "description": "Lokasi Restoran"
-    }), 200
-
-@api_bp.route('/maps/reviews', methods=['GET'])
-def get_maps_reviews():
-    return jsonify({
-        "status": "success",
-        "reviews": [
-            {"user": "Budi", "rating": 5, "comment": "Makanannya sangat enak!"},
-            {"user": "Siti", "rating": 5, "comment": "Pelayanan ramah."}
-        ],
-        "overall_rating": 5
     }), 200
 
 @api_bp.route('/admin/login', methods=['POST'])
