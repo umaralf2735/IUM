@@ -199,38 +199,4 @@ def manage_admin_menu(id):
         db.session.commit()
         return jsonify({"msg": "Menu deleted"}), 200
 
-@api_bp.route('/checkout', methods=['POST'])
-def checkout():
-    data = request.get_json() or {}
-    cart = data.get('cart', [])
-    amount_paid = data.get('amount_paid', 0)
-    
-    if not cart:
-        return jsonify({"msg": "Cart is empty"}), 400
-        
-    total_price = 0
-    for item in cart:
-        menu = Menu.query.get(item['id'])
-        if not menu:
-            return jsonify({"msg": f"Menu with ID {item['id']} not found"}), 404
-        if menu.stock < item['quantity']:
-            return jsonify({"msg": f"Stock not enough for {menu.name}. Remaining: {menu.stock}"}), 400
-        total_price += (menu.price * item['quantity'])
-    
-    if amount_paid < total_price:
-        return jsonify({"msg": f"Insufficient payment. Total is {total_price}, but received {amount_paid}"}), 400
-        
-    change = amount_paid - total_price
-    
-    for item in cart:
-        menu = Menu.query.get(item['id'])
-        menu.stock -= item['quantity']
-        
-    db.session.commit()
-    
-    return jsonify({
-        "msg": "Checkout successful",
-        "total_price": total_price,
-        "amount_paid": amount_paid,
-        "change": change
-    }), 200
+

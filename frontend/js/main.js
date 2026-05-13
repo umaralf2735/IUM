@@ -3,8 +3,7 @@ const API_URL = 'http://127.0.0.1:5000/api';
 const menuGrid = document.getElementById('menu-grid');
 const categoryFilter = document.getElementById('category-filter');
 const loader = document.getElementById('loader');
-const cartTotalEl = document.getElementById('cart-total');
-const btnCheckout = document.getElementById('btn-checkout');
+
 
 const menuModal = document.getElementById('menu-modal');
 const closeMenuModalBtn = document.getElementById('close-menu-modal');
