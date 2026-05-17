@@ -421,7 +421,7 @@ a {
 
 .about-section {
     background: #f4f4f4;
-    padding: 80px 20px;
+    padding: 60px 24px;
 }
 
 .about-container {
@@ -441,13 +441,15 @@ a {
     font-size: 1.8rem;
     margin-bottom: 20px;
     letter-spacing: 2px;
+    line-height: 1.2;
 }
 
 .about-text p {
-    color: #999;
-    line-height: 1.8;
-    margin-bottom: 15px;
+    color: #888;
+    line-height: 1.85;
+    margin-bottom: 16px;
     font-size: 0.95rem;
+    text-align: justify;
 }
 
 .about-image {
@@ -463,7 +465,7 @@ a {
 
 .gallery-section {
     background: #fff;
-    padding: 80px 20px;
+    padding: 60px 20px;
     text-align: center;
 }
 
@@ -472,6 +474,7 @@ a {
     font-weight: 800;
     font-size: 0.8rem;
     letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 .gallery-section h2 {
@@ -493,7 +496,7 @@ a {
     margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    gap: 15px;
+    gap: 10px;
 }
 
 .gallery-grid img {
@@ -501,6 +504,11 @@ a {
     aspect-ratio: 1;
     object-fit: cover;
     border-radius: 5px;
+    transition: transform 0.3s ease;
+}
+
+.gallery-grid img:hover {
+    transform: scale(1.05);
 }
 
 .main-footer {
@@ -698,18 +706,21 @@ footer {
 }
 
 @media (max-width: 768px) {
+    /* --- Modal --- */
     .menu-detail-layout {
         flex-direction: column;
     }
 
+    /* --- Hero --- */
     .hero h1 {
-        font-size: 3rem;
+        font-size: 2rem;
     }
 
+    /* --- Navbar --- */
     .nav-container {
         flex-direction: column;
         justify-content: center;
-        gap: 10px;
+        gap: 8px;
         padding: 0 10px;
     }
 
@@ -717,17 +728,114 @@ footer {
         display: flex;
         flex-wrap: nowrap;
         justify-content: space-evenly;
-        gap: 5px;
+        gap: 4px;
         width: 100%;
         padding-bottom: 5px;
     }
 
     .new-nav .nav-links a {
-        font-size: 0.65rem;
+        font-size: 0.6rem;
         letter-spacing: 0;
     }
 
     .new-hero {
-        margin-top: 120px;
+        margin-top: 110px;
+    }
+
+    /* --- About Section --- */
+    .about-section {
+        padding: 40px 20px;
+    }
+
+    .about-container {
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .about-text {
+        flex: none;
+        width: 100%;
+    }
+
+    .about-text h2 {
+        font-size: 1.4rem;
+        letter-spacing: 1.5px;
+        margin-bottom: 14px;
+    }
+
+    .about-text p {
+        font-size: 0.9rem;
+        line-height: 1.8;
+        margin-bottom: 12px;
+    }
+
+    .about-image {
+        flex: none;
+        width: 100%;
+        max-width: 260px;
+        margin: 0 auto;
+    }
+
+    /* --- Gallery Section --- */
+    .gallery-section {
+        padding: 40px 16px;
+    }
+
+    .gallery-section h2 {
+        font-size: 1.6rem;
+        letter-spacing: 2px;
+    }
+
+    .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+
+    /* --- Menu Section --- */
+    .menu-section {
+        padding: 20px 16px 60px 16px;
+    }
+
+    .menu-card {
+        flex: 0 0 220px;
+    }
+
+    .category-filter {
+        gap: 8px;
+    }
+
+    .filter-btn {
+        padding: 6px 14px;
+        font-size: 0.8rem;
+    }
+
+    /* --- Footer --- */
+    .main-footer > div {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 20px;
+    }
+
+    .main-footer > div > div:last-child {
+        text-align: left !important;
+    }
+
+    /* --- Section Products search bar --- */
+    #products {
+        padding: 40px 16px 16px 16px !important;
+    }
+
+    /* --- Modal --- */
+    .modal-content {
+        padding: 20px 16px;
+        border-radius: 12px;
+    }
+
+    .menu-detail-info h3 {
+        font-size: 1.3rem;
+    }
+
+    .menu-detail-info .price {
+        font-size: 1.3rem;
     }
 }
