@@ -14,7 +14,8 @@ let menus = [];
 let categories = [];
 let currentCategory = 'all';
 
-// Carousel Logic
+
+
 let slideIndex = 1;
 
 function changeSlide(n) {

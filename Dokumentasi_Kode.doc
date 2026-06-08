@@ -1,0 +1,111 @@
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head>
+    <meta charset="utf-8">
+    <title>Dokumentasi Kode</title>
+    <style>
+        body { font-family: 'Calibri', sans-serif; font-size: 11pt; }
+        h1 { font-size: 16pt; font-weight: bold; color: #2F5496; }
+        h2 { font-size: 14pt; font-weight: bold; color: #2F5496; border-bottom: 1px solid #ccc; padding-bottom: 5px; margin-top: 20px;}
+        h3 { font-size: 12pt; font-weight: bold; color: #1F3763; margin-top: 15px;}
+        ul { margin-bottom: 15px; }
+        li { margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+
+    <h1>Dokumentasi Kode Aplikasi Web Warkop Ayah (Katalog Etalase)</h1>
+    <p>Dokumen ini berisi penjelasan fungsional per baris/blok kode. <strong>Pembaruan Terbaru:</strong> Sistem checkout/keranjang kini telah dihilangkan sehingga aplikasi berfungsi sebagai <em>view-only catalog</em>.</p>
+    
+    <h2>1. BACKEND (Sistem Server & Database)</h2>
+
+    <h3>File: backend/run.py</h3>
+    <ul>
+        <li><strong>Baris 1 - 3:</strong> Mengimpor fungsi dasar untuk menyalakan aplikasi Flask dan Database.</li>
+        <li><strong>Baris 5 - 15:</strong> Penyiapan awal struktur data. Kode secara otomatis memindai apakah akun Admin sudah ada. Jika kosong, akun default (admin/admin123) otomatis dibuat agar pengguna tidak terkunci.</li>
+        <li><strong>Baris 16:</strong> Perintah pemanggil (titik nyala) server localhost di port 5000.</li>
+    </ul>
+
+    <h3>File: backend/app/config.py</h3>
+    <ul>
+        <li><strong>Baris 6 - 15:</strong> Buku catatan pengaturan inti. Memuat Secret Key (untuk keamanan sesi & JWT), alamat koneksi database (warkop.ayah), serta peraturan sistem unggahan gambar (lokasi folder dan pembatasan maksimal ukuran 16 MB).</li>
+    </ul>
+
+    <h3>File: backend/app/models.py</h3>
+    <ul>
+        <li><strong>Baris 4 - 15:</strong> Skema tabel untuk daftar Akun Admin di MySQL, lengkap dengan teknologi pengacakan (hashing) kata sandi rahasia.</li>
+        <li><strong>Baris 17 - 22:</strong> Skema tabel Category untuk memisah jenis kopi/makanan.</li>
+        <li><strong>Baris 24 - 30:</strong> Skema tabel Image, tugasnya mencatat di mana letak file foto tersimpan di server.</li>
+        <li><strong>Baris 32 - 59:</strong> Skema tabel utama Menu. Mencatat nama barang, harga, stok, URL Maps. Terdapat fungsi to_dict (Baris 47) yang membungkus wujud data Python menjadi JSON sebelum dikirimkan ke pengunjung.</li>
+    </ul>
+
+    <h3>File: backend/app/routes.py (Telah Diperbarui)</h3>
+    <ul>
+        <li><strong>Baris 11 - 24:</strong> Jalur lalu lintas (API Publik) agar pengunjung bisa membaca seluruh daftar Menu dan Kategori.</li>
+        <li><strong>Baris 25 - 31:</strong> Jalur API Publik khusus pencarian lokasi (URL Google Maps terbaru kini lebih akurat diarahkan ke Warkop Ayah Kedurus).</li>
+        <li><strong>Baris 33 - 47 (/admin/login):</strong> Jalur masuk petugas/admin. Di sini sistem memeriksa kecocokan kata sandi.</li>
+        <li><strong>Baris 49 - 67:</strong> Jalur khusus Admin untuk membuat atau menambahkan akun pengelola cadangan.</li>
+        <li><strong>Baris 69 - 103:</strong> Jalur manajemen (CRUD) Kategori. Segala aksi Tambah/Ubah/Hapus Kategori melalui baris ini.</li>
+        <li><strong>Baris 105 - 154:</strong> Jalur pengolahan File Foto. Sistem menyimpan berkas ke dalam folder dan menghapus foto jika diminta.</li>
+        <li><strong>Baris 156 - 200:</strong> Jalur pengolahan master Produk/Menu oleh Admin (Tambah, Edit Data, Hapus).</li>
+        <li><em>(Catatan: Baris-baris endpoint untuk keranjang/checkout sudah resmi ditiadakan dari file ini).</em></li>
+    </ul>
+
+    <h3>File: backend/app/__init__.py</h3>
+    <ul>
+        <li><strong>Baris 10 - 24:</strong> Berperan sebagai teknisi kabel (Persiapan Awal). Memastikan jalur lalu lintas ke frontend terbuka (CORS), menancapkan Database, mengatur pengawal JWT, dan ketersediaan folder file upload.</li>
+    </ul>
+
+    <h2>2. FRONTEND (Tampilan Layar Pelanggan)</h2>
+
+    <h3>File: frontend/index.html (Telah Diperbarui)</h3>
+    <ul>
+        <li><strong>Baris 18 - 33:</strong> Kerangka Kepala halaman (Navbar Navigasi Atas).</li>
+        <li><strong>Baris 35 - 57:</strong> Menampilkan Carousel (Slider Foto berjalan). Update: sudah menyesuaikan dengan perubahan gambar sampul promosi ke ekstensi terbaru (.jpg & .png).</li>
+        <li><strong>Baris 59 - 68:</strong> Bagian Kolom Kotak Pencarian (Search) serta tombol penyaring (Filter) kategori.</li>
+        <li><strong>Baris 70 - 80:</strong> Lahan kosong (Grid) tempat kotak menu ditarik paksa via Javascript.</li>
+        <li><strong>Baris 82 - 119:</strong> Area Profil Toko ("Cerita Kami") dan Gallery Section. Gambar galeri telah diperbarui ke nama berkas dengan variasi format (.JPG, .jpeg).</li>
+        <li><strong>Baris 121 - 136:</strong> Komponen jendela penampil detail Menu (Modal Detail Pop-up).</li>
+        <li><strong>Baris 138 - 150:</strong> Komponen Pop-up informasi menuju Google Maps Warkop.</li>
+        <li><strong>Baris 152 - 154:</strong> Sudut notifikasi peringatan (Toast Container).</li>
+        <li><strong>Baris 156 - 177:</strong> Bagian dasar Footer (Informasi hak cipta, lokasi, nomor WA).</li>
+    </ul>
+
+    <h3>File: frontend/js/main.js (Telah Diperbarui)</h3>
+    <ul>
+        <li><strong>Baris 1 - 16:</strong> Inisialisasi awal. Mencatat letak elemen penting. Variabel sisa checkout sudah dibersihkan.</li>
+        <li><strong>Baris 18 - 44:</strong> Algoritma pergantian foto otomatis setiap beberapa detik pada area sampul.</li>
+        <li><strong>Baris 46 - 124 (Inisialisasi Pemuatan):</strong> Trik rahasia masuk halaman admin (Baris 51 - 67) dan fitur Drag to Scroll atau gulir horizontal (Baris 92 - 122).</li>
+        <li><strong>Baris 126 - 170:</strong> Sistem "kurir" (Fetch) penarik data daftar Menu dan Kategori dari Backend Server.</li>
+        <li><strong>Baris 187 - 208 (filterMenus):</strong> Mesin Pengecek kata untuk pencarian.</li>
+        <li><strong>Baris 263 - 299 (renderMenus):</strong> Pabrik perakitan elemen pajangan etalase. Pada baris 281 terpasang algoritma warna indikator pintar stok (Hijau/Merah).</li>
+        <li><strong>Baris 301 - 324:</strong> Fungsi pemicu tombol Pop-up detail saat foto menu diklik pelanggan.</li>
+    </ul>
+
+    <h2>3. DASHBOARD ADMIN (Tampilan Panel Pengelola)</h2>
+
+    <h3>File: frontend/admin/dashboard.html</h3>
+    <ul>
+        <li><strong>Baris 1 - 18:</strong> Bagian Kepala (Head), mendatangkan font dan berkas style CSS.</li>
+        <li><strong>Baris 19 - 38:</strong> Area panel navigasi samping kiri layar (Sidebar Menu), lengkap dengan tombol Logout.</li>
+        <li><strong>Baris 40 - 59:</strong> Tampilan beranda dasbor, berisi statistik ikhtisar jumlah Kategori dan Menu.</li>
+        <li><strong>Baris 60 - 107:</strong> Ruang kerja tabel manajemen Kategori dan Menu beserta tombol penambahannya.</li>
+        <li><strong>Baris 108 - 120:</strong> Area kerja unggah daftar gambar dari folder laptop Admin.</li>
+        <li><strong>Baris 121 - 140:</strong> Formulir pembentukan akun Admin Baru.</li>
+        <li><strong>Baris 143 - 176:</strong> Area jendela Modal Form, tempat mengisi detail stok/harga menu baru.</li>
+    </ul>
+
+    <h3>File: frontend/admin/js/dashboard.js</h3>
+    <ul>
+        <li><strong>Baris 1 - 28:</strong> Area Pengecekan Kunci Keamanan Token JWT Admin.</li>
+        <li><strong>Baris 30 - 50 (initNavigation):</strong> Fungsi navigasi Sidebar tanpa perlu muat ulang tab (refresh layar).</li>
+        <li><strong>Baris 57 - 76 (apiFetch):</strong> Pengawal gerak data ke server yang menyisipkan Authorization Token.</li>
+        <li><strong>Baris 78 - 128 (Manajemen Kategori):</strong> Memuat Kategori ke tabel dan operasi Tambah/Hapus.</li>
+        <li><strong>Baris 130 - 170 (loadMenus):</strong> Menyedot data Menu. Mulai Baris 145 - 154 warna indikator stok diracik (Merah, Kuning, Hijau).</li>
+        <li><strong>Baris 172 - 207 (Kontrol Modal Pop-up):</strong> Logika memunculkan jendela pengisian menu dan seleksi gambar (selectImage).</li>
+        <li><strong>Baris 209 - 260:</strong> Logika menyimpan (POST), mengubah (PUT), dan menghapus (DELETE) pesanan.</li>
+        <li><strong>Baris 262 - 314:</strong> Daftar pratinjau Galeri di Admin Panel dan proses Unggah foto.</li>
+        <li><strong>Baris 316 - 340 (handleAddAdmin):</strong> Blok eksekusi pendaftaran akun admin dengan indikator respon warna.</li>
+    </ul>
+
+</body>
+</html>
