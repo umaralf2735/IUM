@@ -791,7 +791,6 @@ footer {
         gap: 8px;
     }
 
-    /* --- Menu Section --- */
     .menu-section {
         padding: 20px 16px 60px 16px;
     }
@@ -809,7 +808,6 @@ footer {
         font-size: 0.8rem;
     }
 
-    /* --- Footer --- */
     .main-footer > div {
         flex-direction: column !important;
         align-items: flex-start !important;
@@ -820,12 +818,10 @@ footer {
         text-align: left !important;
     }
 
-    /* --- Section Products search bar --- */
     #products {
         padding: 40px 16px 16px 16px !important;
     }
 
-    /* --- Modal --- */
     .modal-content {
         padding: 20px 16px;
         border-radius: 12px;
