@@ -1088,9 +1088,27 @@ body {
     width: 100%;
     height: 100%;
     position: relative;
+    overflow: hidden;
+    cursor: grab;
+    user-select: none;
+    touch-action: pan-y;
+}
+
+.hero-showcase .carousel-container:active {
+    cursor: grabbing;
+}
+
+.hero-showcase .carousel-track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
 }
 
 .hero-showcase .carousel-slide {
+    display: block !important;
+    flex: 0 0 100%;
     width: 100%;
     height: 480px;
     position: relative;
@@ -1102,6 +1120,7 @@ body {
     object-fit: cover;
     display: block;
     filter: brightness(0.92) contrast(1.04);
+    pointer-events: none;
 }
 
 .slide-caption {

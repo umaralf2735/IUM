@@ -95,6 +95,7 @@ let categories = [];
 let currentCategory = 'all';
 
 let slideIndex = 1;
+let autoSlideTimer = null;
 
 function changeSlide(n) {
     showSlides(slideIndex += n);
@@ -105,29 +106,90 @@ function currentSlide(n) {
 }
 
 function showSlides(n) {
-    let i;
-    let slides = document.getElementsByClassName("carousel-slide");
-    let dots = document.getElementsByClassName("dot");
+    const track = document.getElementById("carousel-track");
+    const slides = document.getElementsByClassName("carousel-slide");
+    const dots = document.getElementsByClassName("dot");
     if (slides.length === 0) return;
-    if (n > slides.length) { slideIndex = 1 }
-    if (n < 1) { slideIndex = slides.length }
-    for (i = 0; i < slides.length; i++) {
-        slides[i].style.display = "none";
+
+    if (n > slides.length) { slideIndex = 1; }
+    if (n < 1) { slideIndex = slides.length; }
+
+    if (track) {
+        track.style.transition = "transform 0.42s cubic-bezier(0.22, 1, 0.36, 1)";
+        track.style.transform = `translateX(-${(slideIndex - 1) * 100}%)`;
     }
-    for (i = 0; i < dots.length; i++) {
+
+    for (let i = 0; i < dots.length; i++) {
         dots[i].className = dots[i].className.replace(" active", "");
     }
-    slides[slideIndex - 1].style.display = "block";
-    dots[slideIndex - 1].className += " active";
+    if (dots[slideIndex - 1]) {
+        dots[slideIndex - 1].className += " active";
+    }
+}
+
+function initHeroSwipe() {
+    const container = document.getElementById("hero-carousel");
+    const track = document.getElementById("carousel-track");
+    if (!container || !track) return;
+
+    let isDragging = false;
+    let startX = 0;
+    let currentDeltaX = 0;
+
+    const getClientX = (e) => (e.touches && e.touches.length > 0) ? e.touches[0].clientX : e.clientX;
+
+    const onStart = (e) => {
+        isDragging = true;
+        startX = getClientX(e);
+        currentDeltaX = 0;
+        track.style.transition = "none";
+        if (autoSlideTimer) clearInterval(autoSlideTimer);
+    };
+
+    const onMove = (e) => {
+        if (!isDragging) return;
+        const x = getClientX(e);
+        currentDeltaX = x - startX;
+        const width = container.offsetWidth || 1;
+        const basePercent = -(slideIndex - 1) * 100;
+        const dragPercent = (currentDeltaX / width) * 100;
+        track.style.transform = `translateX(${basePercent + dragPercent}%)`;
+    };
+
+    const onEnd = () => {
+        if (!isDragging) return;
+        isDragging = false;
+        const width = container.offsetWidth || 1;
+        const threshold = Math.min(70, width * 0.18);
+
+        if (currentDeltaX < -threshold) {
+            changeSlide(1);
+        } else if (currentDeltaX > threshold) {
+            changeSlide(-1);
+        } else {
+            showSlides(slideIndex);
+        }
+
+        autoSlideTimer = setInterval(() => changeSlide(1), 6000);
+    };
+
+    container.addEventListener("mousedown", onStart);
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onEnd);
+
+    container.addEventListener("touchstart", onStart, { passive: true });
+    container.addEventListener("touchmove", onMove, { passive: true });
+    container.addEventListener("touchend", onEnd);
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
     await fetchMenus('all');
     await fetchCategories();
     showSlides(slideIndex);
+    initHeroSwipe();
 
     // Auto-advance hero slide every 6 seconds
-    setInterval(() => {
+    autoSlideTimer = setInterval(() => {
         changeSlide(1);
     }, 6000);
 
