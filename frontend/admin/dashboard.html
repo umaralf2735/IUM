@@ -5,140 +5,277 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Admin - Warkop Ayah</title>
-    
-    <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Work+Sans&display=swap" rel="stylesheet" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="css/admin.css">
 </head>
 
-<body class="dashboard-body">
+<body class="th-admin-body">
 
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <h2>Admin<span>Panel</span></h2>
+    <header class="th-topbar">
+        <div class="th-topbar-left">
+            <a href="../index.html" class="th-brand" title="Lihat Halaman Web">
+                <span class="th-brand-badge"><i class="fa-solid fa-mug-hot"></i></span>
+                <div class="th-brand-text">
+                    <strong>WARKOP AYAH</strong>
+                    <span>MANAGEMENT PORTAL</span>
+                </div>
+            </a>
+            <span class="th-topbar-divider"></span>
+            <div class="th-workspace-pill">
+                <span class="th-ws-dot"><i class="fa-solid fa-store"></i></span>
+                <span>Kedai Surabaya</span>
+            </div>
         </div>
-        <ul class="sidebar-nav">
-            <li><a href="#" class="nav-item active" data-target="dashboard"><i class="fa-solid fa-house"></i>
-                    Dashboard</a></li>
-            <li><a href="#" class="nav-item" data-target="manage-menus"><i class="fa-solid fa-utensils"></i> Kelola
-                    Menu</a></li>
-            <li><a href="#" class="nav-item" data-target="manage-categories"><i class="fa-solid fa-tags"></i> Kelola
-                    Kategori</a></li>
-            <li><a href="#" class="nav-item" data-target="manage-images"><i class="fa-solid fa-image"></i> Kelola
-                    Gambar</a></li>
-            <li><a href="#" class="nav-item" data-target="manage-admins"><i class="fa-solid fa-users"></i> Kelola
-                    Admin</a></li>
-        </ul>
-        <div class="sidebar-footer">
-            <button id="logout-btn" class="btn-logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+
+        <div class="th-topbar-right">
+            <a href="../index.html" class="th-view-site-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i> Lihat Web</a>
+            <div class="th-notif-icon" title="Status Sistem Aktif">
+                <i class="fa-regular fa-bell"></i>
+                <span class="th-notif-dot"></span>
+            </div>
+            <div class="th-profile-chip">
+                <div class="th-avatar"><i class="fa-solid fa-user-shield"></i></div>
+                <div class="th-profile-meta">
+                    <strong>Administrator</strong>
+                    <span>Pengelola Warkop</span>
+                </div>
+            </div>
         </div>
-    </aside>
+    </header>
 
-    <main class="main-content">
-        <header class="top-header">
-            <h1>Selamat Datang, Admin</h1>
-        </header>
+    <div class="th-layout">
+        <aside class="sidebar th-sidebar">
+            <div class="th-setup-box">
+                <div class="th-setup-row">
+                    <span>Kelengkapan Etalase</span>
+                    <strong>100%</strong>
+                </div>
+                <div class="th-progress-track">
+                    <div class="th-progress-bar" style="width: 100%;"></div>
+                </div>
+            </div>
 
-        <div class="content-sections">
-            
-            <section id="dashboard" class="admin-section active">
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <h3>Total Menu</h3>
-                        <p class="stat-number" id="stat-menus">0</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3>Total Kategori</h3>
-                        <p class="stat-number" id="stat-categories">0</p>
-                    </div>
-                </div>
-            </section>
+            <ul class="sidebar-nav">
+                <li>
+                    <a href="#" class="nav-item active" data-target="dashboard">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-item" data-target="manage-menus">
+                        <i class="fa-solid fa-utensils"></i>
+                        <span>Kelola Menu</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-item" data-target="manage-categories">
+                        <i class="fa-solid fa-tags"></i>
+                        <span>Kelola Kategori</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-item" data-target="manage-images">
+                        <i class="fa-regular fa-images"></i>
+                        <span>Galeri Gambar</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-item" data-target="manage-admins">
+                        <i class="fa-solid fa-user-gear"></i>
+                        <span>Kelola Admin</span>
+                    </a>
+                </li>
+            </ul>
 
-            <section id="manage-menus" class="admin-section">
-                <div class="section-header">
-                    <h2>Daftar Menu</h2>
-                    <button class="btn-primary" onclick="openMenuForm()"><i class="fa-solid fa-plus"></i> Tambah
-                        Menu</button>
-                </div>
-                <div class="table-container">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nama</th>
-                                <th>Kategori</th>
-                                <th>Harga</th>
-                                <th>Stok</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbl-menus">
-                            
-                        </tbody>
-                    </table>
-                </div>
-            </section>
+            <div class="sidebar-footer">
+                <button id="logout-btn" class="btn-logout">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout Sistem
+                </button>
+            </div>
+        </aside>
 
-            <section id="manage-categories" class="admin-section">
-                <div class="section-header">
-                    <h2>Daftar Kategori</h2>
-                    <form id="add-category-form" class="inline-form">
-                        <input type="text" id="cat-name" placeholder="Nama kategori baru" required>
-                        <button type="submit" class="btn-primary">Tambah</button>
-                    </form>
+        <main class="main-content th-main">
+            <div class="th-alert-banner">
+                <div class="th-alert-text">
+                    <strong>Sistem Etalase Warkop Ayah Aktif</strong>
+                    <p>Perubahan menu, harga, stok, dan foto yang Anda simpan akan langsung tampil di halaman pembeli.</p>
                 </div>
-                <div class="table-container">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nama Kategori</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbl-categories">
-                        </tbody>
-                    </table>
-                </div>
-            </section>
+                <a href="../index.html#products" class="th-alert-link">Lihat Etalase &rarr;</a>
+            </div>
 
-            <section id="manage-images" class="admin-section">
-                <div class="section-header">
-                    <h2>Galeri Gambar</h2>
-                    <form id="upload-image-form" class="inline-form">
-                        <input type="file" id="image-file" accept="image/*" required>
-                        <button type="submit" class="btn-primary">Upload</button>
-                    </form>
-                </div>
-                <div class="image-grid" id="admin-image-grid">
-                    
-                </div>
-            </section>
+            <div class="th-greeting">
+                <h1>Selamat Pagi, Admin 👋</h1>
+                <p>Hari yang tepat untuk memperbarui menu dan mengecek ketersediaan stok warkop.</p>
+            </div>
 
-            <section id="manage-admins" class="admin-section">
-                <div class="section-header">
-                    <h2>Tambah Akun Admin</h2>
-                </div>
-                <div class="form-card">
-                    <form id="add-admin-form">
-                        <div class="form-group">
-                            <label>Username Baru</label>
-                            <input type="text" id="new-admin-user" required>
+            <div class="content-sections">
+
+                <section id="dashboard" class="admin-section active">
+                    <div class="th-quick-grid">
+                        <div class="th-quick-card" onclick="document.querySelector('[data-target=manage-menus]').click(); openMenuForm();">
+                            <div class="th-quick-icon icon-amber">
+                                <i class="fa-solid fa-plus"></i>
+                            </div>
+                            <div class="th-quick-info">
+                                <h3>Tambah Menu Baru</h3>
+                                <p>Tambahkan makanan, kopi, atau minuman baru ke daftar etalase pelanggan.</p>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>Password</label>
-                            <input type="password" id="new-admin-pass" required>
+
+                        <div class="th-quick-card" onclick="document.querySelector('[data-target=manage-images]').click();">
+                            <div class="th-quick-icon icon-dark">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                            </div>
+                            <div class="th-quick-info">
+                                <h3>Upload Foto Produk</h3>
+                                <p>Unggah foto menu terbaru agar tampilan etalase makin menarik.</p>
+                            </div>
                         </div>
-                        <button type="submit" class="btn-primary">Simpan Akun Admin</button>
-                        <p id="admin-msg" style="margin-top: 10px;"></p>
-                    </form>
-                </div>
-            </section>
-        </div>
-    </main>
+                    </div>
+
+                    <div class="th-dashboard-split">
+                        <div class="th-actions-col">
+                            <h3 class="th-col-title">Ringkasan &amp; Aktivitas</h3>
+                            <div class="th-action-list">
+                                <div class="th-action-item" onclick="document.querySelector('[data-target=manage-menus]').click();">
+                                    <div class="th-act-badge badge-gold"><i class="fa-solid fa-mug-hot"></i></div>
+                                    <div class="th-act-body">
+                                        <h4>Total Menu Terdaftar</h4>
+                                        <p>Saat ini terdapat <strong id="stat-menus">0</strong> item menu aktif di dalam sistem etalase.</p>
+                                    </div>
+                                    <span class="th-act-arrow"><i class="fa-solid fa-chevron-right"></i></span>
+                                </div>
+
+                                <div class="th-action-item" onclick="document.querySelector('[data-target=manage-categories]').click();">
+                                    <div class="th-act-badge badge-green"><i class="fa-solid fa-layer-group"></i></div>
+                                    <div class="th-act-body">
+                                        <h4>Kategori Produk</h4>
+                                        <p>Terdapat <strong id="stat-categories">0</strong> kategori filter untuk memudahkan pencarian pembeli.</p>
+                                    </div>
+                                    <span class="th-act-arrow"><i class="fa-solid fa-chevron-right"></i></span>
+                                </div>
+
+                                <div class="th-action-item" onclick="document.querySelector('[data-target=manage-admins]').click();">
+                                    <div class="th-act-badge badge-purple"><i class="fa-solid fa-shield-halved"></i></div>
+                                    <div class="th-act-body">
+                                        <h4>Keamanan &amp; Akun</h4>
+                                        <p>Kelola akses pengelola yang diizinkan mengubah data Warkop Ayah.</p>
+                                    </div>
+                                    <span class="th-act-arrow"><i class="fa-solid fa-chevron-right"></i></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="th-side-col">
+                            <h3 class="th-col-title">Info Operasional Kedai</h3>
+                            <div class="th-info-card">
+                                <div class="th-info-row">
+                                    <span class="th-dot dot-amber"></span>
+                                    <div>
+                                        <strong>Warkop Ayah Surabaya</strong>
+                                        <p>Jl. Kedurus III SD No.32, Karangpilang</p>
+                                    </div>
+                                </div>
+                                <div class="th-info-row">
+                                    <span class="th-dot dot-green"></span>
+                                    <div>
+                                        <strong>Kampanye Layanan</strong>
+                                        <p>"Kopi Jujur, Harga Sedulur" — Sejak 2020</p>
+                                    </div>
+                                </div>
+                                <div class="th-info-row">
+                                    <span class="th-dot dot-dark"></span>
+                                    <div>
+                                        <strong>Kontak WhatsApp</strong>
+                                        <p>+62 813-3357-1793</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="manage-menus" class="admin-section">
+                    <div class="section-header">
+                        <h2>Daftar Menu</h2>
+                        <button class="btn-primary" onclick="openMenuForm()"><i class="fa-solid fa-plus"></i> Tambah Menu</button>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nama</th>
+                                    <th>Kategori</th>
+                                    <th>Harga</th>
+                                    <th>Stok</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbl-menus"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section id="manage-categories" class="admin-section">
+                    <div class="section-header">
+                        <h2>Daftar Kategori</h2>
+                        <form id="add-category-form" class="inline-form">
+                            <input type="text" id="cat-name" placeholder="Nama kategori baru" required>
+                            <button type="submit" class="btn-primary">Tambah</button>
+                        </form>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nama Kategori</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbl-categories"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section id="manage-images" class="admin-section">
+                    <div class="section-header">
+                        <h2>Galeri Gambar</h2>
+                        <form id="upload-image-form" class="inline-form">
+                            <input type="file" id="image-file" accept="image/*" required>
+                            <button type="submit" class="btn-primary">Upload</button>
+                        </form>
+                    </div>
+                    <div class="image-grid" id="admin-image-grid"></div>
+                </section>
+
+                <section id="manage-admins" class="admin-section">
+                    <div class="section-header">
+                        <h2>Tambah Akun Admin</h2>
+                    </div>
+                    <div class="form-card">
+                        <form id="add-admin-form">
+                            <div class="form-group">
+                                <label>Username Baru</label>
+                                <input type="text" id="new-admin-user" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input type="password" id="new-admin-pass" required>
+                            </div>
+                            <button type="submit" class="btn-primary">Simpan Akun Admin</button>
+                            <p id="admin-msg" style="margin-top: 10px;"></p>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
 
     <div id="admin-menu-modal" class="modal">
         <div class="modal-content" style="max-width: 500px;">
@@ -164,9 +301,7 @@
                 </div>
                 <div class="form-group">
                     <label>Pilih Gambar (Opsional)</label>
-                    <div class="image-picker-container" id="m-image-picker">
-                        <!-- Populated by JS -->
-                    </div>
+                    <div class="image-picker-container" id="m-image-picker"></div>
                     <input type="hidden" id="m-image" value="">
                 </div>
                 <button type="submit" class="btn-primary" style="width: 100%;">Simpan Menu</button>

@@ -4,17 +4,95 @@ const menuGrid = document.getElementById('menu-grid');
 const categoryFilter = document.getElementById('category-filter');
 const loader = document.getElementById('loader');
 
-
 const menuModal = document.getElementById('menu-modal');
 const closeMenuModalBtn = document.getElementById('close-menu-modal');
 const mapsModal = document.getElementById('maps-modal');
 const closeMapsModalBtn = document.getElementById('close-maps-modal');
 
+const FALLBACK_CATEGORIES = [
+    { id: 1, name: 'Mie & Makanan' },
+    { id: 2, name: 'Minuman & Kopi' },
+    { id: 3, name: 'Snack & Camilan' }
+];
+
+const FALLBACK_MENUS = [
+    {
+        id: 101,
+        name: 'Indomie Goreng Original',
+        description: 'Mi goreng legendaris disajikan hangat lengkap dengan taburan bawang goreng renyah.',
+        price: 7000,
+        category: 'Mie & Makanan',
+        local_img: 'images/v42_813.png',
+        stock: 25
+    },
+    {
+        id: 102,
+        name: 'Indomie Goreng Pedas',
+        description: 'Mi goreng dengan sensasi pedas nikmat yang bikin melek dan makin semangat.',
+        price: 7000,
+        category: 'Mie & Makanan',
+        local_img: 'images/v42_812.png',
+        stock: 20
+    },
+    {
+        id: 103,
+        name: 'Indomie Goreng Rendang',
+        description: 'Perpaduan bumbu rendang autentik yang kaya rempah dan gurih di setiap suapan.',
+        price: 7500,
+        category: 'Mie & Makanan',
+        local_img: 'images/v42_814.png',
+        stock: 18
+    },
+    {
+        id: 104,
+        name: 'Indomie Goreng Cabe Ijo',
+        description: 'Aroma dan pedas khas cabai hijau pilihan yang khas dan menggugah selera.',
+        price: 7500,
+        category: 'Mie & Makanan',
+        local_img: 'images/v42_815.png',
+        stock: 15
+    },
+    {
+        id: 105,
+        name: 'Pop Mie Ayam Bawang',
+        description: 'Mi kuah cup praktis dengan kaldu ayam bawang hangat, cocok untuk teman nongkrong malam.',
+        price: 8000,
+        category: 'Mie & Makanan',
+        local_img: 'images/v42_821.png',
+        stock: 14
+    },
+    {
+        id: 106,
+        name: 'Pop Mie Goreng Spesial',
+        description: 'Pop Mie varian goreng spesial yang praktis, kenyang, dan nikmat disantap kapan saja.',
+        price: 8000,
+        category: 'Mie & Makanan',
+        local_img: 'images/v42_822.png',
+        stock: 16
+    },
+    {
+        id: 107,
+        name: 'Es Good Day & Nutrisari',
+        description: 'Pilihan minuman dingin menyegarkan: Good Day Freeze, Cappuccino, hingga aneka rasa Nutrisari.',
+        price: 5000,
+        category: 'Minuman & Kopi',
+        local_img: 'images/v1_162.webp',
+        stock: 30
+    },
+    {
+        id: 108,
+        name: 'Roti Sisir & Wafer Nabati',
+        description: 'Aneka camilan manis dan gurih pendamping ngopi santai di Warkop Ayah.',
+        price: 3000,
+        category: 'Snack & Camilan',
+        local_img: 'images/v1_157.webp',
+        stock: 22
+    }
+];
+
 let menus = [];
 let categories = [];
 let currentCategory = 'all';
-
-
 
 let slideIndex = 1;
 
@@ -48,6 +126,11 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchCategories();
     showSlides(slideIndex);
 
+    // Auto-advance hero slide every 6 seconds
+    setInterval(() => {
+        changeSlide(1);
+    }, 6000);
+
     // Secret entry step for admin: 5 clicks on footer logo within 2 seconds
     let secretClickCount = 0;
     let secretClickTimer;
@@ -66,11 +149,56 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    if (document.getElementById('search-menu-input')) {
-        document.getElementById('search-menu-input').addEventListener('input', filterMenus);
+    const searchMenuInput = document.getElementById('search-menu-input');
+    const navSearchInput = document.getElementById('nav-search-input');
+
+    if (searchMenuInput) {
+        searchMenuInput.addEventListener('input', () => {
+            if (navSearchInput) navSearchInput.value = searchMenuInput.value;
+            filterMenus();
+        });
     }
 
-    if (document.getElementById('nav-maps')) document.getElementById('nav-maps').addEventListener('click', (e) => { e.preventDefault(); openMapsModal(); });
+    if (navSearchInput) {
+        navSearchInput.addEventListener('input', () => {
+            if (searchMenuInput) searchMenuInput.value = navSearchInput.value;
+            filterMenus();
+        });
+        navSearchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const prodSec = document.getElementById('products');
+                if (prodSec) prodSec.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    }
+
+    if (document.getElementById('nav-maps')) {
+        document.getElementById('nav-maps').addEventListener('click', (e) => {
+            e.preventDefault();
+            openMapsModal();
+        });
+    }
+
+    const mobileToggle = document.getElementById('mobile-menu-toggle');
+    const navLinksEl = document.querySelector('.new-nav .nav-links');
+    if (mobileToggle && navLinksEl) {
+        mobileToggle.addEventListener('click', () => {
+            navLinksEl.classList.toggle('open');
+            const icon = mobileToggle.querySelector('i');
+            if (icon) {
+                icon.className = navLinksEl.classList.contains('open')
+                    ? 'fa-solid fa-xmark'
+                    : 'fa-solid fa-bars';
+            }
+        });
+        navLinksEl.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinksEl.classList.remove('open');
+                const icon = mobileToggle.querySelector('i');
+                if (icon) icon.className = 'fa-solid fa-bars';
+            });
+        });
+    }
 
     if (document.getElementById('exit-btn')) {
         document.getElementById('exit-btn').addEventListener('click', (e) => {
@@ -88,39 +216,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     if (closeMapsModalBtn) closeMapsModalBtn.addEventListener('click', closeMapsModal);
     if (closeMenuModalBtn) closeMenuModalBtn.addEventListener('click', closeMenuModal);
-
-    const leftArrow = document.querySelector('.left-arrow');
-    const rightArrow = document.querySelector('.right-arrow');
-
-    let isDown = false;
-    let startX;
-    let scrollLeft;
-
-    if (menuGrid) {
-        menuGrid.addEventListener('mousedown', (e) => {
-            isDown = true;
-            menuGrid.style.cursor = 'grabbing';
-            startX = e.pageX - menuGrid.offsetLeft;
-            scrollLeft = menuGrid.scrollLeft;
-        });
-        menuGrid.addEventListener('mouseleave', () => {
-            isDown = false;
-            menuGrid.style.cursor = 'default';
-        });
-        menuGrid.addEventListener('mouseup', () => {
-            isDown = false;
-            menuGrid.style.cursor = 'default';
-        });
-        menuGrid.addEventListener('mousemove', (e) => {
-            if (!isDown) return;
-            e.preventDefault();
-            const x = e.pageX - menuGrid.offsetLeft;
-            const walk = (x - startX) * 2;
-            menuGrid.scrollLeft = scrollLeft - walk;
-        });
-    }
-
-
 });
 
 async function fetchMenus(categoryId = '') {
@@ -130,56 +225,57 @@ async function fetchMenus(categoryId = '') {
         const url = (categoryId && categoryId !== 'all') ? `${API_URL}/menus?category_id=${categoryId}` : `${API_URL}/menus`;
         const res = await fetch(url);
         if (!res.ok) throw new Error("Gagal mengambil data produk");
-        menus = await res.json();
+        const data = await res.json();
+        menus = (Array.isArray(data) && data.length > 0) ? data : FALLBACK_MENUS;
         renderMenus(menus);
     } catch (error) {
-        console.error('Error fetching menus:', error);
-        menuGrid.innerHTML = '<p style="color:red;">Gagal memuat data menu.</p>';
+        console.warn('Backend API tidak aktif atau kosong, menampilkan katalog default:', error);
+        menus = FALLBACK_MENUS;
+        renderMenus(menus);
     } finally {
         loader.style.display = 'none';
     }
 }
 
+function bindCategoryButtons() {
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const targetBtn = e.currentTarget;
+            const catId = targetBtn.dataset.id;
+            handleCategoryClick(targetBtn, catId);
+        });
+    });
+}
+
 async function fetchCategories() {
+    const filterContainer = document.getElementById('category-filter');
     try {
         const res = await fetch(`${API_URL}/categories`);
         if (!res.ok) throw new Error("Gagal mengambil data kategori");
-        categories = await res.json();
-
-        const filterContainer = document.getElementById('category-filter');
-        // Keep the 'Semua' button, append the rest
-        categories.forEach(cat => {
-            const btn = document.createElement('button');
-            btn.className = 'filter-btn';
-            btn.dataset.id = cat.name;
-            btn.style.border = 'none';
-            btn.style.color = 'var(--text-muted)';
-            btn.textContent = cat.name;
-            filterContainer.appendChild(btn);
-        });
-
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const catId = e.target.dataset.id;
-                handleCategoryClick(e, catId);
-            });
-        });
+        const data = await res.json();
+        categories = (Array.isArray(data) && data.length > 0) ? data : FALLBACK_CATEGORIES;
     } catch (error) {
-        console.error('Error fetching categories:', error);
+        console.warn('Menggunakan kategori default:', error);
+        categories = FALLBACK_CATEGORIES;
     }
-}
 
-function handleCategoryClick(e, categoryName) {
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.classList.remove('active');
-        btn.style.borderBottom = 'none';
-        btn.style.color = 'var(--text-muted)';
+    categories.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.className = 'filter-btn';
+        btn.dataset.id = cat.name;
+        btn.textContent = cat.name;
+        filterContainer.appendChild(btn);
     });
 
-    e.target.classList.add('active');
-    e.target.style.borderBottom = '2px solid var(--text-white)';
-    e.target.style.color = 'var(--text-white)';
+    bindCategoryButtons();
+}
 
+function handleCategoryClick(targetBtn, categoryName) {
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+
+    targetBtn.classList.add('active');
     currentCategory = categoryName;
     filterMenus();
 }
@@ -207,38 +303,6 @@ function filterMenus() {
     renderMenus(filtered);
 }
 
-function submitReview() {
-    const name = document.getElementById('review-name').value;
-    const rating = document.getElementById('review-rating').value;
-    const text = document.getElementById('review-text').value;
-
-    if (!name || !text) {
-        alert("Nama dan Cerita harus diisi ya!");
-        return;
-    }
-
-    alert("Terima kasih! Review dan momen Anda telah berhasil dikirim.");
-
-    const list = document.getElementById('public-reviews-list');
-    const stars = Array(Number(rating)).fill('<i class="fa-solid fa-star"></i>').join('');
-
-    const div = document.createElement('div');
-    div.className = 'review-card';
-    div.style.cssText = 'background:#fff; padding:20px; border-radius:10px; box-shadow:0 4px 15px rgba(0,0,0,0.05); border-left: 4px solid var(--primary-col); animation: fadeIn 0.5s;';
-    div.innerHTML = `
-        <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
-            <strong style="color:#333;">${name}</strong>
-            <span style="color:#f7b70b;">${stars}</span>
-        </div>
-        <p style="color:#666; font-style: italic; line-height: 1.6;">"${text}"</p>
-    `;
-    list.prepend(div);
-
-    document.getElementById('review-name').value = '';
-    document.getElementById('review-text').value = '';
-    document.getElementById('review-image').value = '';
-}
-
 function navScrollSpy() {
     const sections = document.querySelectorAll('section, header');
     const navLinks = document.querySelectorAll('.nav-links a.nav-btn');
@@ -263,7 +327,7 @@ window.addEventListener('scroll', navScrollSpy);
 function renderMenus(menuData) {
     menuGrid.innerHTML = '';
     if (menuData.length === 0) {
-        menuGrid.innerHTML = '<p style="text-align:center; width: 100%;">Tidak ada menu yang tersedia saat ini.</p>';
+        menuGrid.innerHTML = '<p style="text-align:center; grid-column: 1 / -1; color: #6b7280; padding: 30px 0;">Tidak ada menu yang cocok dengan pencarian Anda.</p>';
         return;
     }
 
@@ -272,26 +336,33 @@ function renderMenus(menuData) {
         card.className = 'menu-card';
         card.addEventListener('click', () => openMenuDetail(menu.id));
 
-        const imgSrc = menu.image_url ? `http://127.0.0.1:5000${menu.image_url}` : null;
+        const imgSrc = menu.image_url
+            ? `http://127.0.0.1:5000${menu.image_url}`
+            : (menu.local_img || null);
 
         const imgHTML = imgSrc
-            ? `<img src="${imgSrc}" alt="${menu.name}" class="menu-img">`
-            : `<div class="img-fallback"><i class="fa-solid fa-utensils"></i></div>`;
+            ? `<div class="menu-img-box"><img src="${imgSrc}" alt="${menu.name}" class="menu-img"></div>`
+            : `<div class="img-fallback"><i class="fa-solid fa-mug-hot"></i></div>`;
 
         const stockBadge = (menu.stock > 0)
-            ? `<span style="background:var(--bg-dark);color:#22c55e;padding:2px 8px;border-radius:10px;font-size:0.8rem;">Stok: ${menu.stock}</span>`
-            : `<span style="background:var(--bg-dark);color:#ef4444;padding:2px 8px;border-radius:10px;font-size:0.8rem;">Habis</span>`;
+            ? `<span class="menu-stock-pill in-stock">Stok: ${menu.stock}</span>`
+            : `<span class="menu-stock-pill out-stock">Habis</span>`;
+
+        const subDesc = menu.description || 'Cita rasa khas Warkop Ayah';
 
         card.innerHTML = `
             ${imgHTML}
-            <div class="menu-info" style="text-align: center;">
-                <div style="display:flex; justify-content:center; align-items:center; margin-bottom: 5px; gap: 10px;">
-                    <span class="menu-category" style="margin:0; display:inline-block; font-size: 0.75rem; color: var(--primary-col); font-weight:800;">${menu.category || 'UMUM'}</span>
+            <div class="menu-info">
+                <div class="menu-meta-row">
+                    <span class="menu-cat-pill">${menu.category || 'Menu'}</span>
                     ${stockBadge}
                 </div>
-                <h3 style="color:var(--text-white); font-weight:800; font-size:1.1rem;">${menu.name}</h3>
-                <div class="menu-price" style="display:block; font-size:1rem; font-weight:700; color:var(--text-muted); margin-top:5px; text-decoration:line-through;">Rp ${(menu.price + 5000).toLocaleString('id-ID')}</div>
-                <div class="menu-price" style="display:block; font-size:1.4rem; font-weight:900; color:#c72121; margin-top:0; margin-bottom:15px;">Rp ${menu.price.toLocaleString('id-ID')}</div>
+                <h3>${menu.name}</h3>
+                <p class="menu-subdesc">${subDesc}</p>
+                <div class="menu-price-row">
+                    <span class="menu-price-strike">Rp ${(menu.price + 2000).toLocaleString('id-ID')}</span>
+                    <span class="menu-price-main">Rp ${menu.price.toLocaleString('id-ID')}</span>
+                </div>
             </div>
         `;
         menuGrid.appendChild(card);
@@ -299,28 +370,37 @@ function renderMenus(menuData) {
 }
 
 async function openMenuDetail(id) {
+    let menu = menus.find(m => m.id === id);
+
     try {
         const res = await fetch(`${API_URL}/menus/${id}`);
-        const menu = await res.json();
-
-        document.getElementById('modal-title').textContent = menu.name;
-        document.getElementById('modal-category').textContent = menu.category || 'Umum';
-        document.getElementById('modal-price').textContent = `Rp ${menu.price.toLocaleString('id-ID')}`;
-        document.getElementById('modal-desc').textContent = menu.description || 'Tidak ada deskripsi.';
-
-        const imgEl = document.getElementById('modal-img');
-        if (menu.image_url) {
-            imgEl.src = `http://127.0.0.1:5000${menu.image_url}`;
-            imgEl.style.display = 'block';
-        } else {
-            imgEl.style.display = 'none';
+        if (res.ok) {
+            menu = await res.json();
         }
-
-        menuModal.classList.add('show');
     } catch (error) {
-        console.error("Failed to get detail", error);
-        alert("Gagal memuat detail menu.");
+        // Fallback to local menu item if API is offline
     }
+
+    if (!menu) return;
+
+    document.getElementById('modal-title').textContent = menu.name;
+    document.getElementById('modal-category').textContent = menu.category || 'Umum';
+    document.getElementById('modal-price').textContent = `Rp ${menu.price.toLocaleString('id-ID')}`;
+    document.getElementById('modal-desc').textContent = menu.description || 'Disajikan hangat dengan kualitas terbaik khas Warkop Ayah.';
+
+    const imgEl = document.getElementById('modal-img');
+    const imgSrc = menu.image_url
+        ? `http://127.0.0.1:5000${menu.image_url}`
+        : (menu.local_img || null);
+
+    if (imgSrc) {
+        imgEl.src = imgSrc;
+        imgEl.style.display = 'block';
+    } else {
+        imgEl.style.display = 'none';
+    }
+
+    menuModal.classList.add('show');
 }
 
 function closeMenuModal() {
@@ -333,14 +413,15 @@ function closeMapsModal() {
 
 async function openMapsModal() {
     try {
-
         const mapRes = await fetch(`${API_URL}/maps`);
-        const mapData = await mapRes.json();
-
-        document.getElementById('gmaps-link').href = mapData.maps_url;
-        mapsModal.classList.add('show');
+        if (mapRes.ok) {
+            const mapData = await mapRes.json();
+            if (mapData.maps_url) {
+                document.getElementById('gmaps-link').href = mapData.maps_url;
+            }
+        }
     } catch (error) {
-        console.error("Failed map", error);
-        alert("Gagal memuat layanan Maps.");
+        // Keep default Google Maps URL in anchor tag
     }
+    mapsModal.classList.add('show');
 }
