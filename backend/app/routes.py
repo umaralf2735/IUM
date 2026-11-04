@@ -66,6 +66,11 @@ def create_admin():
 
     return jsonify({"msg": "Admin created successfully"}), 201
 
+@api_bp.route('/categories', methods=['GET'])
+def get_public_categories():
+    categories = Category.query.all()
+    return jsonify([{"id": c.id, "name": c.name} for c in categories]), 200
+
 @api_bp.route('/admin/categories', methods=['GET'])
 @jwt_required()
 def get_categories():

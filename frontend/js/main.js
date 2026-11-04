@@ -121,9 +121,9 @@ function showSlides(n) {
     dots[slideIndex - 1].className += " active";
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    fetchMenus('all');
-    fetchCategories();
+document.addEventListener('DOMContentLoaded', async () => {
+    await fetchMenus('all');
+    await fetchCategories();
     showSlides(slideIndex);
 
     // Auto-advance hero slide every 6 seconds
@@ -249,15 +249,38 @@ function bindCategoryButtons() {
 
 async function fetchCategories() {
     const filterContainer = document.getElementById('category-filter');
+    filterContainer.innerHTML = '<button class="filter-btn active" data-id="all"><i class="fa-solid fa-border-all"></i> Semua</button>';
+
+    let apiCats = [];
     try {
         const res = await fetch(`${API_URL}/categories`);
-        if (!res.ok) throw new Error("Gagal mengambil data kategori");
-        const data = await res.json();
-        categories = (Array.isArray(data) && data.length > 0) ? data : FALLBACK_CATEGORIES;
+        if (res.ok) {
+            const data = await res.json();
+            if (Array.isArray(data)) apiCats = data;
+        }
     } catch (error) {
-        console.warn('Menggunakan kategori default:', error);
-        categories = FALLBACK_CATEGORIES;
+        // Akan dilengkapi dari kategori yang ada pada daftar menu
     }
+
+    const catMap = new Map();
+    apiCats.forEach(c => {
+        if (c && c.name) catMap.set(String(c.name).trim().toLowerCase(), String(c.name).trim());
+    });
+    menus.forEach(m => {
+        if (m && m.category) {
+            const name = String(m.category).trim();
+            const key = name.toLowerCase();
+            if (name && !catMap.has(key)) {
+                catMap.set(key, name);
+            }
+        }
+    });
+
+    if (catMap.size === 0) {
+        FALLBACK_CATEGORIES.forEach(c => catMap.set(c.name.toLowerCase(), c.name));
+    }
+
+    categories = Array.from(catMap.values()).map((name, idx) => ({ id: idx + 1, name }));
 
     categories.forEach(cat => {
         const btn = document.createElement('button');
@@ -360,7 +383,6 @@ function renderMenus(menuData) {
                 <h3>${menu.name}</h3>
                 <p class="menu-subdesc">${subDesc}</p>
                 <div class="menu-price-row">
-                    <span class="menu-price-strike">Rp ${(menu.price + 2000).toLocaleString('id-ID')}</span>
                     <span class="menu-price-main">Rp ${menu.price.toLocaleString('id-ID')}</span>
                 </div>
             </div>
