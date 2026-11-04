@@ -835,3 +835,776 @@ footer {
         font-size: 1.3rem;
     }
 }
+
+/* ===== REDESAIN PREMIUM STOREFRONT (Gaya Orgunny + Warna Warkop Ayah) ===== */
+body {
+    background: #f6f7f9;
+    color: #222;
+}
+
+/* Navbar: Bar kuning emas seperti Orgunny, 3 zona (Logo Kiri, Nav Tengah, Search+Icons Kanan) */
+.new-nav {
+    background: linear-gradient(90deg, #e5ab07 0%, #f7b70b 100%);
+    padding: 12px 0;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+    border-bottom: none;
+}
+
+.new-nav .nav-container {
+    max-width: 1280px;
+    padding: 0 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.brand-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.brand-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #222;
+    color: #f7b70b;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.05;
+}
+
+.v44_568 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: #1f1f1f;
+    letter-spacing: 0.3px;
+}
+
+.v44_569 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    color: rgba(31, 31, 31, 0.72);
+    margin-top: 2px;
+}
+
+.new-nav .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.new-nav .nav-links a {
+    color: #1f1f1f;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-transform: none;
+    padding: 8px 16px;
+    border-radius: 999px;
+    transition: all 0.22s ease;
+    border-bottom: none;
+}
+
+.new-nav .nav-links a:hover {
+    background: rgba(255, 255, 255, 0.45);
+    color: #111;
+}
+
+.new-nav .nav-links a.active {
+    background: #222222;
+    color: #f7b70b;
+    border-bottom: none;
+    padding: 8px 18px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.16);
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-search-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #ffffff;
+    border-radius: 999px;
+    padding: 8px 16px;
+    width: 240px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.nav-search-pill i {
+    color: #888;
+    font-size: 0.85rem;
+}
+
+.nav-search-pill input {
+    border: none;
+    outline: none;
+    background: transparent;
+    width: 100%;
+    font-size: 0.85rem;
+    color: #222;
+    font-family: 'Inter', sans-serif;
+}
+
+.nav-icon-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #222;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.92rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.nav-icon-btn:hover {
+    transform: translateY(-2px);
+    background: #222;
+    color: #f7b70b;
+}
+
+/* Hero Split: Kiri Teks Gelap Elegan, Kanan Foto Full-Height Tanpa Ruang Kosong */
+.new-hero {
+    margin-top: 62px;
+    background: #262626;
+}
+
+.hero-split {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    min-height: 480px;
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+.hero-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 60px 64px;
+    background: linear-gradient(135deg, #2d2d2d 0%, #1f1f1f 100%);
+    color: #ffffff;
+}
+
+.hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #f7b70b;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.6px;
+}
+
+.hero-text h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 600;
+    font-size: 3.1rem;
+    line-height: 1.15;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+}
+
+.hero-text p {
+    color: #c9c9c9;
+    font-size: 0.96rem;
+    line-height: 1.7;
+    max-width: 440px;
+    font-family: 'Inter', sans-serif;
+}
+
+.hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+}
+
+.hero-cta {
+    background: #f7b70b;
+    color: #1f1f1f;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 13px 30px;
+    border-radius: 999px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    box-shadow: 0 8px 20px rgba(247, 183, 11, 0.28);
+}
+
+.hero-cta:hover {
+    background: #ffbe1a;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(247, 183, 11, 0.4);
+}
+
+.hero-cta-ghost {
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.92rem;
+    padding: 12px 24px;
+    border-radius: 999px;
+    transition: all 0.25s ease;
+}
+
+.hero-cta-ghost:hover {
+    border-color: #f7b70b;
+    color: #f7b70b;
+}
+
+.hero-showcase {
+    position: relative;
+    min-height: 480px;
+    background: #1a1a1a;
+    overflow: hidden;
+}
+
+.hero-showcase .carousel-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.hero-showcase .carousel-slide {
+    width: 100%;
+    height: 480px;
+    position: relative;
+}
+
+.hero-showcase .carousel-slide img {
+    width: 100%;
+    height: 100% !important;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.92) contrast(1.04);
+}
+
+.slide-caption {
+    position: absolute;
+    left: 24px;
+    bottom: 22px;
+    background: rgba(24, 24, 24, 0.78);
+    backdrop-filter: blur(8px);
+    color: #ffffff;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.slide-caption i {
+    color: #f7b70b;
+}
+
+.hero-showcase .carousel-dots {
+    bottom: 24px;
+    right: 24px;
+    width: auto;
+    text-align: right;
+}
+
+/* Seksi Header Produk & Filter */
+.products-head {
+    padding: 64px 20px 16px;
+    background: #f6f7f9;
+}
+
+.products-header-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.section-eyebrow {
+    display: inline-block;
+    color: #dca306;
+    font-weight: 800;
+    font-size: 0.78rem;
+    letter-spacing: 2.2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.section-heading {
+    text-align: center;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 600;
+    font-size: 2.35rem;
+    color: #1f1f1f;
+    margin-bottom: 10px;
+}
+
+.section-sub {
+    color: #6b7280;
+    font-size: 0.96rem;
+    max-width: 520px;
+    margin: 0 auto 26px;
+}
+
+.search-wrap {
+    max-width: 540px;
+    margin: 0 auto 24px;
+    position: relative;
+}
+
+.search-wrap .search-icon {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    font-size: 0.95rem;
+}
+
+#search-menu-input {
+    width: 100%;
+    padding: 14px 22px 14px 48px;
+    font-size: 0.95rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 999px;
+    outline: none;
+    background: #ffffff;
+    color: #222;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#search-menu-input:focus {
+    border-color: #dca306;
+    box-shadow: 0 0 0 3px rgba(220, 163, 6, 0.2);
+}
+
+.category-filter {
+    margin-bottom: 12px;
+    gap: 10px;
+}
+
+.filter-btn {
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+    color: #4b5563;
+    border-radius: 999px;
+    padding: 10px 22px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    background: #f7b70b;
+    border-color: #f7b70b;
+    color: #1f1f1f;
+    box-shadow: 0 6px 16px rgba(247, 183, 11, 0.32);
+}
+
+/* Grid Kartu Produk Gaya Orgunny */
+.menu-section {
+    background: #f6f7f9 !important;
+    max-width: 1200px;
+    padding: 20px 24px 90px !important;
+}
+
+.menu-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 26px;
+    max-width: none !important;
+    overflow: visible;
+}
+
+.menu-card {
+    flex: none;
+    background: #ffffff;
+    border-radius: 22px;
+    padding: 24px 20px 22px;
+    box-shadow: 0 8px 24px rgba(17, 24, 39, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    transition: transform 0.28s ease, box-shadow 0.28s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.menu-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 36px rgba(17, 24, 39, 0.1);
+}
+
+.menu-img-box {
+    width: 100%;
+    height: 175px;
+    border-radius: 16px;
+    background: #fbfbfc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+    margin-bottom: 16px;
+}
+
+.menu-img {
+    height: 145px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.14));
+    transition: transform 0.3s ease;
+}
+
+.menu-card:hover .menu-img {
+    transform: scale(1.05);
+}
+
+.img-fallback {
+    width: 100%;
+    height: 175px;
+    border-radius: 16px;
+    background: #fef9ec;
+    color: #dca306;
+    font-size: 2.2rem;
+    margin-bottom: 16px;
+}
+
+.menu-info {
+    padding: 0;
+    width: 100%;
+}
+
+.menu-meta-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.menu-cat-pill {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: #b58302;
+    background: rgba(247, 183, 11, 0.16);
+    padding: 3px 10px;
+    border-radius: 999px;
+}
+
+.menu-stock-pill {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 2px 9px;
+    border-radius: 999px;
+}
+
+.menu-stock-pill.in-stock {
+    background: #ecfdf5;
+    color: #16a34a;
+}
+
+.menu-stock-pill.out-stock {
+    background: #fef2f2;
+    color: #ef4444;
+}
+
+.menu-info h3 {
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 1.05rem !important;
+    color: #1f2937 !important;
+    margin: 4px 0 !important;
+}
+
+.menu-subdesc {
+    font-size: 0.8rem;
+    color: #9ca3af;
+    margin-bottom: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.menu-price-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 8px;
+    margin-top: auto;
+}
+
+.menu-price-strike {
+    font-size: 0.82rem;
+    color: #9ca3af;
+    text-decoration: line-through;
+}
+
+.menu-price-main {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+/* About & Gallery */
+.about-section {
+    background: #ffffff;
+    padding: 80px 24px;
+}
+
+.about-text h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    color: #1f2937;
+    font-size: 2.2rem;
+    letter-spacing: 0;
+    margin-bottom: 18px;
+}
+
+.about-text p {
+    color: #4b5563;
+}
+
+.gallery-section {
+    background: #f6f7f9;
+    padding: 80px 24px;
+}
+
+.gallery-grid {
+    max-width: 1120px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.gallery-grid img {
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.maps-modal-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(247, 183, 11, 0.16);
+    color: #dca306;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    margin-bottom: 14px;
+}
+
+/* Footer */
+.main-footer {
+    background: #222222 !important;
+    padding: 48px 24px;
+    margin-top: 0;
+}
+
+.footer-inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+
+.footer-contact {
+    text-align: right;
+    font-size: 0.9rem;
+    color: #bdbdbd;
+}
+
+.nav-burger-btn {
+    display: none;
+    border: none;
+    cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+    .menu-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .nav-search-pill {
+        width: 180px;
+    }
+    .hero-text {
+        padding: 40px 36px;
+    }
+    .hero-text h1 {
+        font-size: 2.4rem;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Baris tunggal persis tampilan mobile Orgunny */
+    .new-nav {
+        padding: 10px 0;
+    }
+    .new-nav .nav-container {
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding: 0 16px !important;
+        gap: 10px;
+    }
+    .brand-icon {
+        width: 34px;
+        height: 34px;
+        font-size: 0.9rem;
+    }
+    .v44_568 {
+        font-size: 1.05rem;
+    }
+    .v44_569 {
+        font-size: 0.58rem;
+        letter-spacing: 1.5px;
+    }
+    .nav-search-pill {
+        display: none !important;
+    }
+    .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .nav-icon-btn {
+        width: 34px;
+        height: 34px;
+        font-size: 0.85rem;
+    }
+    .nav-burger-btn {
+        display: inline-flex;
+    }
+    /* Dropdown menu mobile saat hamburger diklik */
+    .new-nav .nav-links {
+        display: none !important;
+        position: absolute;
+        top: 100%;
+        left: 12px;
+        right: 12px;
+        width: auto;
+        flex-direction: column;
+        align-items: stretch;
+        background: #ffffff;
+        padding: 10px;
+        border-radius: 16px;
+        box-shadow: 0 14px 32px rgba(0, 0, 0, 0.16);
+        gap: 4px;
+        z-index: 1001;
+    }
+    .new-nav .nav-links.open {
+        display: flex !important;
+    }
+    .new-nav .nav-links li {
+        width: 100%;
+    }
+    .new-nav .nav-links a,
+    .new-nav .nav-links a.active {
+        display: block;
+        width: 100%;
+        padding: 10px 14px;
+        font-size: 0.88rem;
+        border-radius: 10px;
+        text-align: left;
+    }
+
+    /* Hero Mobile Orgunny: Foto di atas, Teks di bawah, tidak ketutupan navbar */
+    .new-hero {
+        margin-top: 56px !important;
+    }
+    .hero-split {
+        display: flex;
+        flex-direction: column-reverse;
+        min-height: 0;
+    }
+    .hero-showcase,
+    .hero-showcase .carousel-slide {
+        min-height: 240px;
+        height: 240px;
+    }
+    .hero-text {
+        padding: 28px 20px 32px;
+        align-items: center;
+        text-align: center;
+    }
+    .hero-text h1 {
+        font-size: 1.85rem;
+    }
+    .hero-text p {
+        font-size: 0.88rem;
+    }
+    .hero-actions {
+        justify-content: center;
+        width: 100%;
+    }
+    .section-heading {
+        font-size: 1.75rem;
+    }
+    .category-filter {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding-bottom: 6px;
+    }
+    .filter-btn {
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+    .menu-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+    }
+    .menu-card {
+        padding: 14px 12px 16px;
+        border-radius: 16px;
+    }
+    .menu-img-box,
+    .img-fallback {
+        height: 125px;
+    }
+    .menu-img {
+        height: 100px;
+    }
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .footer-contact {
+        text-align: left;
+    }
+}

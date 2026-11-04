@@ -6,9 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Warkop Ayah - Cita Rasa Premium</title>
 
-    <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css?family=Work+Sans&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700;800&family=Playfair+Display:wght@500;600;700&family=Work+Sans:wght@800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -17,76 +15,112 @@
 
     <nav class="navbar new-nav">
         <div class="nav-container">
-            <a href="#" class="logo"
-                style="text-decoration:none; display:flex; flex-direction:column; align-items:center;">
-                <span class="v44_568" style="color:var(--primary-col);">WARKOP AYAH</span>
-                <span class="v44_569">COFFEE <span style="color:var(--primary-col);">&</span> FOOD</span>
+            <a href="#home" class="logo brand-pill">
+                <span class="brand-icon"><i class="fa-solid fa-mug-hot"></i></span>
+                <span class="brand-text">
+                    <span class="v44_568">Warkop Ayah</span>
+                    <span class="v44_569">COFFEE &amp; FOOD</span>
+                </span>
             </a>
+
             <ul class="nav-links">
-                <li><a href="#home" class="nav-btn active">HOME</a></li>
-                <li><a href="#products" class="nav-btn">MENU</a></li>
-                <li><a href="#about" class="nav-btn">ABOUT US</a></li>
-                <li><a href="#moments" class="nav-btn">MOMENTS</a></li>
-                <li><a href="#" id="nav-maps" class="nav-btn">LOKASI KAMI</a></li>
+                <li><a href="#home" class="nav-btn active">Home</a></li>
+                <li><a href="#products" class="nav-btn">Menu</a></li>
+                <li><a href="#about" class="nav-btn">About Us</a></li>
+                <li><a href="#moments" class="nav-btn">Moments</a></li>
+                <li><a href="#" id="nav-maps" class="nav-btn">Lokasi Kami</a></li>
             </ul>
+
+            <div class="nav-right">
+                <div class="nav-search-pill">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="nav-search-input" placeholder="Cari menu atau minuman...">
+                </div>
+                <a href="#products" class="nav-icon-btn" title="Etalase Menu">
+                    <i class="fa-solid fa-utensils"></i>
+                </a>
+                <a href="#" class="nav-icon-btn" onclick="openMapsModal(); return false;" title="Lokasi Warkop">
+                    <i class="fa-solid fa-location-dot"></i>
+                </a>
+                <button type="button" class="nav-icon-btn nav-burger-btn" id="mobile-menu-toggle" aria-label="Buka Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
         </div>
     </nav>
 
     <section id="home" class="hero new-hero">
-        <div class="carousel-container">
-            <div class="carousel-slide fade">
-                <img src="images/v51_588.webp" alt="Warkop Banner 1" style="width: 100%; height: auto; display: block;">
+        <div class="hero-split">
+            <div class="hero-text">
+                <span class="hero-tag"><i class="fa-solid fa-tag"></i> Kopi Jujur, Harga Sedulur</span>
+                <h1>Kopi &amp; Makanan<br>Cita Rasa Premium</h1>
+                <p>Dimulai dari teras rumah yang hangat sejak 2020, kami meracik minuman dan hidangan favorit untuk menemani setiap cerita dan melepas penat Anda.</p>
+                <div class="hero-actions">
+                    <a href="#products" class="hero-cta">Pesan &amp; Lihat Menu</a>
+                    <a href="#about" class="hero-cta-ghost">Cerita Kami</a>
+                </div>
             </div>
-            <div class="carousel-slide fade">
-                <img src="images/v51_589.webp" alt="Warkop Banner 2" style="width: 100%; height: auto; display: block;">
-            </div>
-            <div class="carousel-slide fade">
-                <img src="images/v51_590.webp" alt="Warkop Banner 3" style="width: 100%; height: auto; display: block;">
-            </div>
+            <div class="hero-showcase">
+                <div class="carousel-container">
+                    <div class="carousel-slide fade">
+                        <img src="images/v1_158.webp" alt="Suasana Warkop Ayah">
+                        <span class="slide-caption"><i class="fa-solid fa-store"></i> Kedai Warkop Ayah</span>
+                    </div>
+                    <div class="carousel-slide fade">
+                        <img src="images/v1_162.webp" alt="Aneka Minuman Sachet & Kopi">
+                        <span class="slide-caption"><i class="fa-solid fa-mug-saucer"></i> Aneka Minuman Segar &amp; Kopi</span>
+                    </div>
+                    <div class="carousel-slide fade">
+                        <img src="images/v1_169.webp" alt="Jajanan & Camilan Warkop">
+                        <span class="slide-caption"><i class="fa-solid fa-cookie-bite"></i> Camilan &amp; Jajanan Lengkap</span>
+                    </div>
 
-            <a class="prev-slide" onclick="changeSlide(-1)">&#10094;</a>
-            <a class="next-slide" onclick="changeSlide(1)">&#10095;</a>
+                    <a class="prev-slide" onclick="changeSlide(-1)">&#10094;</a>
+                    <a class="next-slide" onclick="changeSlide(1)">&#10095;</a>
 
-            <div class="carousel-dots">
-                <span class="dot" onclick="currentSlide(1)"></span>
-                <span class="dot" onclick="currentSlide(2)"></span>
-                <span class="dot" onclick="currentSlide(3)"></span>
+                    <div class="carousel-dots">
+                        <span class="dot" onclick="currentSlide(1)"></span>
+                        <span class="dot" onclick="currentSlide(2)"></span>
+                        <span class="dot" onclick="currentSlide(3)"></span>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="hero-overlay" style="pointer-events: none;"></div>
     </section>
 
-    <section id="products" style="padding: 50px 20px 20px 20px; background:#fff;">
-        <div style="max-width: 600px; margin: 0 auto 20px auto; text-align: center;">
-            <input type="text" id="search-menu-input" placeholder="Cari pesanan"
-                style="width: 100%; padding: 12px 20px; font-size: 1rem; border: 1px solid #ddd; border-radius: 25px; outline: none; box-shadow: 0 4px 6px rgba(0,0,0,0.05); background-color: #f9fafb; color: #333;">
-        </div>
-        <div class="category-filter" id="category-filter">
-            <button class="filter-btn active" data-id="all"
-                style="border:none; border-bottom:2px solid var(--text-white); border-radius:0; color:var(--text-white); padding-bottom:5px;">Semua</button>
+    <section id="products" class="products-head">
+        <div class="products-header-inner">
+            <span class="section-eyebrow">ETALASE KAMI</span>
+            <h2 class="section-heading">Pilih Menu Favoritmu</h2>
+            <p class="section-sub">Kopi hangat, minuman dingin menyegarkan, hingga mi &amp; camilan teman nongkrong.</p>
+            <div class="search-wrap">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="search-menu-input" placeholder="Cari pesanan (contoh: Kopi, Indomie, Nutrisari)...">
+            </div>
+            <div class="category-filter" id="category-filter">
+                <button class="filter-btn active" data-id="all"><i class="fa-solid fa-border-all"></i> Semua</button>
+            </div>
         </div>
     </section>
 
-    <section class="menu-section" style="padding-top:20px; padding-bottom:100px; background:#fff; position:relative;">
-
+    <section class="menu-section">
         <div id="loader" class="loader-container">
             <div class="spinner"></div>
             <p>Memuat Etalase...</p>
         </div>
 
-        <div class="menu-grid" id="menu-grid" style="max-width: 900px; margin: 0 auto;">
-
-        </div>
+        <div class="menu-grid" id="menu-grid"></div>
     </section>
 
     <section id="about" class="about-section">
         <div class="about-container">
             <div class="about-text">
-                <h2>CERITA KAMI</h2>
+                <span class="section-eyebrow">TENTANG WARKOP AYAH</span>
+                <h2>Cerita Kami</h2>
                 <p>Dimulai dari satu meja sederhana di teras rumah yang hangat, kami tumbuh menjadi ruang bagi semua
                     kalangan untuk berbagi tawa dan melepas penat setelah seharian bekerja.</p>
                 <p>Di tahun 2020, kami berkomitmen untuk menghadirkan pengalaman "ngopi" yang berbeda. Melalui kampanye
-                    "Kopi Jujur, Harga Sedulur", Warkop Ayah membuktikan bahwa kedai sederhana pun mampu menyajikan
+                    <strong>"Kopi Jujur, Harga Sedulur"</strong>, Warkop Ayah membuktikan bahwa kedai sederhana pun mampu menyajikan
                     minuman berkualitas dengan standar rasa yang terjaga.</p>
                 <p>Dedikasi kami dalam meracik setiap gelas dengan sepenuh hati telah membawa Warkop Ayah menjadi tempat
                     favorit warga sekitar. Kami bangga dapat terus menyajikan kehangatan melalui pilihan minuman terbaik
@@ -99,22 +133,22 @@
     </section>
 
     <section id="moments" class="gallery-section">
-        <p class="section-subtitle">MOMENTS</p>
-        <h2>GALLERY</h2>
+        <p class="section-eyebrow">MOMENTS</p>
+        <h2 class="section-heading">Galeri Suasana</h2>
         <div class="gallery-line"></div>
         <div class="gallery-grid">
-            <img src="images/v1_156.webp" alt="M">
-            <img src="images/v1_157.webp" alt="M">
-            <img src="images/v1_158.webp" alt="M">
-            <img src="images/v1_159.webp" alt="M">
-            <img src="images/v1_162.webp" alt="M">
-            <img src="images/v1_164.webp" alt="M">
-            <img src="images/v1_167.webp" alt="M">
-            <img src="images/v1_169.webp" alt="M">
-            <img src="images/v1_172.webp" alt="M">
-            <img src="images/v1_174.webp" alt="M">
-            <img src="images/v1_177.webp" alt="M">
-            <img src="images/v1_179.webp" alt="M">
+            <img src="images/v1_156.webp" alt="Suasana Warkop">
+            <img src="images/v1_157.webp" alt="Menu Warkop">
+            <img src="images/v1_158.webp" alt="Kedai Warkop">
+            <img src="images/v1_159.webp" alt="Sudut Warkop">
+            <img src="images/v1_162.webp" alt="Deretan Minuman">
+            <img src="images/v1_164.webp" alt="Sajian Warkop">
+            <img src="images/v1_167.webp" alt="Momen Pelanggan">
+            <img src="images/v1_169.webp" alt="Toples Jajanan">
+            <img src="images/v1_172.webp" alt="Nongkrong Santai">
+            <img src="images/v1_174.webp" alt="Menu Favorit">
+            <img src="images/v1_177.webp" alt="Banner Warkop">
+            <img src="images/v1_179.webp" alt="Kebersamaan">
         </div>
     </section>
 
@@ -126,8 +160,8 @@
                     <img id="modal-img" src="" alt="Menu Image">
                 </div>
                 <div class="menu-detail-info">
-                    <h3 id="modal-title">Menu Title</h3>
                     <p id="modal-category" class="category-badge">Category</p>
+                    <h3 id="modal-title">Menu Title</h3>
                     <h4 id="modal-price" class="price">Rp 0</h4>
                     <p id="modal-desc" class="desc">Deskripsi menu</p>
                 </div>
@@ -136,15 +170,16 @@
     </div>
 
     <div id="maps-modal" class="modal">
-        <div class="modal-content" style="max-width: 400px; text-align: center;">
+        <div class="modal-content" style="max-width: 420px; text-align: center;">
             <span class="close-btn" id="close-maps-modal">&times;</span>
-            <h2 style="margin-bottom: 15px;">Lokasi Google Maps</h2>
-            <p style="color: var(--text-muted); margin-bottom: 20px;">Kunjungi Warkop kami secara langsung melalui
-                tautan di bawah ini.</p>
+            <div class="maps-modal-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+            <h2 style="margin-bottom: 10px;">Lokasi Google Maps</h2>
+            <p style="color: var(--text-muted); margin-bottom: 24px;">Kunjungi Warkop Ayah secara langsung melalui tautan di bawah ini.</p>
             <div class="maps-info">
-                <a id="gmaps-link" href="#" target="_blank" class="btn-secondary"
-                    style="display: inline-block; width: 100%; padding: 12px; font-size: 1.1rem;"><i
-                        class="fa-solid fa-map-location-dot"></i> Buka di Google Maps</a>
+                <a id="gmaps-link" href="https://maps.google.com/?q=Jl.+Kedurus+lll+Sd+No.32+Surabaya" target="_blank" class="btn-primary"
+                    style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 14px; font-size: 1rem;">
+                    <i class="fa-solid fa-location-arrow"></i> Buka di Google Maps
+                </a>
             </div>
         </div>
     </div>
@@ -153,25 +188,20 @@
         style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px;">
     </div>
 
-    <footer class="main-footer" style="padding: 40px 20px; background: #333; color: white; margin-top: 50px;">
-        <div
-            style="max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+    <footer class="main-footer">
+        <div class="footer-inner">
             <div>
-                <a href="#" class="logo footer-logo" style="margin-bottom: 5px; display: inline-block;">
+                <a href="#" class="logo footer-logo" style="margin-bottom: 6px; display: inline-block;">
                     <span style="color:var(--primary-col); font-size: 1.5rem; font-weight: 800;">WARKOP AYAH</span><br>
-                    <span class="logo-sub" style="font-size: 0.9rem; letter-spacing: 2px;">COFFEE & FOOD</span>
+                    <span class="logo-sub" style="font-size: 0.85rem; letter-spacing: 2px; color: #ddd;">COFFEE &amp; FOOD</span>
                 </a>
-                <p style="margin-top: 10px; color: #aaa; font-size: 0.9rem;">Menyajikan cita rasa premium sejak dahulu.
-                </p>
+                <p style="margin-top: 10px; color: #aaa; font-size: 0.9rem;">Menyajikan cita rasa premium dengan harga sedulur.</p>
             </div>
 
-            <div style="text-align: right; font-size: 0.9rem; color: #aaa;">
-                <p><i class="fa-solid fa-map-pin" style="color: var(--primary-col);"></i> Jl. Kedurus lll Sd No.32
-                    Surabaya, Karangpilang 60223
-                </p>
-                <p style="margin-top: 5px;"><i class="fa-brands fa-whatsapp" style="color: var(--primary-col);"></i> +62
-                    813-3357-1793</p>
-                <p style="margin-top: 20px;">&copy; 2026 Warkop Ayah. All Rights Reserved.</p>
+            <div class="footer-contact">
+                <p><i class="fa-solid fa-map-pin" style="color: var(--primary-col);"></i> Jl. Kedurus III SD No.32 Surabaya, Karangpilang 60223</p>
+                <p style="margin-top: 6px;"><i class="fa-brands fa-whatsapp" style="color: var(--primary-col);"></i> +62 813-3357-1793</p>
+                <p style="margin-top: 18px; color: #888;">&copy; 2026 Warkop Ayah. All Rights Reserved.</p>
             </div>
         </div>
     </footer>
