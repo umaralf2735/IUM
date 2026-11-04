@@ -95,6 +95,7 @@ let categories = [];
 let currentCategory = 'all';
 
 let slideIndex = 1;
+let autoSlideTimer = null;
 
 function changeSlide(n) {
     showSlides(slideIndex += n);
@@ -105,29 +106,90 @@ function currentSlide(n) {
 }
 
 function showSlides(n) {
-    let i;
-    let slides = document.getElementsByClassName("carousel-slide");
-    let dots = document.getElementsByClassName("dot");
+    const track = document.getElementById("carousel-track");
+    const slides = document.getElementsByClassName("carousel-slide");
+    const dots = document.getElementsByClassName("dot");
     if (slides.length === 0) return;
-    if (n > slides.length) { slideIndex = 1 }
-    if (n < 1) { slideIndex = slides.length }
-    for (i = 0; i < slides.length; i++) {
-        slides[i].style.display = "none";
+
+    if (n > slides.length) { slideIndex = 1; }
+    if (n < 1) { slideIndex = slides.length; }
+
+    if (track) {
+        track.style.transition = "transform 0.42s cubic-bezier(0.22, 1, 0.36, 1)";
+        track.style.transform = `translateX(-${(slideIndex - 1) * 100}%)`;
     }
-    for (i = 0; i < dots.length; i++) {
+
+    for (let i = 0; i < dots.length; i++) {
         dots[i].className = dots[i].className.replace(" active", "");
     }
-    slides[slideIndex - 1].style.display = "block";
-    dots[slideIndex - 1].className += " active";
+    if (dots[slideIndex - 1]) {
+        dots[slideIndex - 1].className += " active";
+    }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    fetchMenus('all');
-    fetchCategories();
+function initHeroSwipe() {
+    const container = document.getElementById("hero-carousel");
+    const track = document.getElementById("carousel-track");
+    if (!container || !track) return;
+
+    let isDragging = false;
+    let startX = 0;
+    let currentDeltaX = 0;
+
+    const getClientX = (e) => (e.touches && e.touches.length > 0) ? e.touches[0].clientX : e.clientX;
+
+    const onStart = (e) => {
+        isDragging = true;
+        startX = getClientX(e);
+        currentDeltaX = 0;
+        track.style.transition = "none";
+        if (autoSlideTimer) clearInterval(autoSlideTimer);
+    };
+
+    const onMove = (e) => {
+        if (!isDragging) return;
+        const x = getClientX(e);
+        currentDeltaX = x - startX;
+        const width = container.offsetWidth || 1;
+        const basePercent = -(slideIndex - 1) * 100;
+        const dragPercent = (currentDeltaX / width) * 100;
+        track.style.transform = `translateX(${basePercent + dragPercent}%)`;
+    };
+
+    const onEnd = () => {
+        if (!isDragging) return;
+        isDragging = false;
+        const width = container.offsetWidth || 1;
+        const threshold = Math.min(70, width * 0.18);
+
+        if (currentDeltaX < -threshold) {
+            changeSlide(1);
+        } else if (currentDeltaX > threshold) {
+            changeSlide(-1);
+        } else {
+            showSlides(slideIndex);
+        }
+
+        autoSlideTimer = setInterval(() => changeSlide(1), 6000);
+    };
+
+    container.addEventListener("mousedown", onStart);
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onEnd);
+
+    container.addEventListener("touchstart", onStart, { passive: true });
+    container.addEventListener("touchmove", onMove, { passive: true });
+    container.addEventListener("touchend", onEnd);
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+    await fetchMenus('all');
+    await fetchCategories();
     showSlides(slideIndex);
+    initHeroSwipe();
 
     // Auto-advance hero slide every 6 seconds
-    setInterval(() => {
+    autoSlideTimer = setInterval(() => {
         changeSlide(1);
     }, 6000);
 
@@ -249,15 +311,38 @@ function bindCategoryButtons() {
 
 async function fetchCategories() {
     const filterContainer = document.getElementById('category-filter');
+    filterContainer.innerHTML = '<button class="filter-btn active" data-id="all"><i class="fa-solid fa-border-all"></i> Semua</button>';
+
+    let apiCats = [];
     try {
         const res = await fetch(`${API_URL}/categories`);
-        if (!res.ok) throw new Error("Gagal mengambil data kategori");
-        const data = await res.json();
-        categories = (Array.isArray(data) && data.length > 0) ? data : FALLBACK_CATEGORIES;
+        if (res.ok) {
+            const data = await res.json();
+            if (Array.isArray(data)) apiCats = data;
+        }
     } catch (error) {
-        console.warn('Menggunakan kategori default:', error);
-        categories = FALLBACK_CATEGORIES;
+        // Akan dilengkapi dari kategori yang ada pada daftar menu
     }
+
+    const catMap = new Map();
+    apiCats.forEach(c => {
+        if (c && c.name) catMap.set(String(c.name).trim().toLowerCase(), String(c.name).trim());
+    });
+    menus.forEach(m => {
+        if (m && m.category) {
+            const name = String(m.category).trim();
+            const key = name.toLowerCase();
+            if (name && !catMap.has(key)) {
+                catMap.set(key, name);
+            }
+        }
+    });
+
+    if (catMap.size === 0) {
+        FALLBACK_CATEGORIES.forEach(c => catMap.set(c.name.toLowerCase(), c.name));
+    }
+
+    categories = Array.from(catMap.values()).map((name, idx) => ({ id: idx + 1, name }));
 
     categories.forEach(cat => {
         const btn = document.createElement('button');
@@ -360,7 +445,6 @@ function renderMenus(menuData) {
                 <h3>${menu.name}</h3>
                 <p class="menu-subdesc">${subDesc}</p>
                 <div class="menu-price-row">
-                    <span class="menu-price-strike">Rp ${(menu.price + 2000).toLocaleString('id-ID')}</span>
                     <span class="menu-price-main">Rp ${menu.price.toLocaleString('id-ID')}</span>
                 </div>
             </div>
